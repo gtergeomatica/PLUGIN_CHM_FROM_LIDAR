@@ -1,0 +1,41 @@
+# This file contains metadata for your plugin. Since 
+# version 2.0 of QGIS this is the proper way to supply 
+# information about a plugin. The old method of 
+# embedding metadata in __init__.py will 
+# is no longer supported since version 2.0.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=CHM from LIDAR
+qgisMinimumVersion=3.0
+description=This plugin creates the Canopy Height Model (CHM) from LIDAR data (DTM and DSM First Pulse).
+version=0.1
+author=Roberta Fagandini (Gter srl) - Roberto Marzocchi (Gter srl)
+email=assistenzagis@gter.it
+
+about=The CHM from LIDAR plugin creates a Canopy Height Model (CHM) starting from LIDAR data (DTM and DSM First Pulse). In particular, it uses the Digital Terrain Model (DTM) and the Digital Surface Model (DSM) processed also from different surveys to compute the CHM. The CHM computation can be done using all the input data provided by the user or for a specific area of interest defined by the user. The final output can be saved defining the desired file format, coordinate reference system and resolution in a folder specified by the user.
+
+tracker=https://github.com/gtergeomatica/chm_from_lidar/issues
+repository=https://github.com/gtergeomatica/chm_from_lidar
+# End of mandatory metadata
+
+# Recommended items:
+
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=CHM, LIDAR, DTM, DSM, Forestry
+
+homepage=https://github.com/gtergeomatica/chm_from_lidar/issues
+category=Plugins
+icon=icon.png
+# experimental flag
+experimental=True
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
+hasProcessingProvider=yes
+
