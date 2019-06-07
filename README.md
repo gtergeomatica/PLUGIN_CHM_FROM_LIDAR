@@ -1,4 +1,6 @@
 # chm_from_lidar
+===================================
+
 The CHM from LIDAR plugin creates a Canopy Height Model (CHM) starting from LIDAR data (DTM and DSM First Pulse)
 
 
@@ -6,7 +8,7 @@ The file *tile_dsm_dtm.gpkg* contains by default data of Regione Veneto (Italy) 
 
 This plugin is founded by 
 
-.. image:: img/4ISTITUZIONALI.png
+![](img/4ISTITUZIONALI.png)
 
 https://psrveneto.it/
 
