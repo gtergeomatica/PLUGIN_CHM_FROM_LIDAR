@@ -42,9 +42,11 @@ import os
 import itertools
 import tempfile
 import shutil
+from shutil import copyfile
 from osgeo import gdal
 from pathlib import Path
 from osgeo import osr
+import time
 
 class ChmFromLidar ():
     """QGIS Plugin Implementation."""
@@ -90,6 +92,7 @@ class ChmFromLidar ():
         
         self.selectedcrs = ''
         self.chmFinalName = ''
+        #self.chmFinalName2 = ''
         self.chm_path_folder = ''
         #self.dlg.checkNegValBox.setChecked(False)
         #print(self.dlg.checkNegValBox.isChecked())
@@ -280,7 +283,8 @@ class ChmFromLidar ():
         text = self.dlg.textLog
         text.append("WARNING!! the following campaigns have been selected:\n")
         for key, value in log_dict.items():
-            text.append("CAMPAGNA: {}".format(key) + "\n" + 
+            text.append("ENTE: {}".format(value[2]) + "\n" +
+            "CAMPAGNA: {}".format(key) + "\n" + 
             "ANNO: {}".format(value[0]) + "\n" + 
             "RISOLUZIONE: {}".format(value[1]) + "\n")
         text.append("It is possible to visualize the current selection on the map (zoom to selection tool)\n")
@@ -424,6 +428,7 @@ class ChmFromLidar ():
         #'CRS' : QgsCoordinateReferenceSystem('EPSG:4326'),
         'OUTPUT': '{}/{}.tif'.format(chm_out_tempdir.name, chm_calc2)}) #output deve essere un file diverso da input
         self.chmFinalName = chm_calc2
+        #self.chmFinalName2 = chm_calc2
         
     def calc3(self, chm_tname, chm_out_tempdir, chm_calc3):
         print('eccolo la funzione calc3')
@@ -434,6 +439,7 @@ class ChmFromLidar ():
         #'CRS' : QgsCoordinateReferenceSystem('EPSG:4326'),
         'OUTPUT': '{}/{}.tif'.format(chm_out_tempdir.name, chm_calc3)}) #output deve essere un file diverso da input
         self.chmFinalName = chm_calc3
+        #self.chmFinalName2 = chm_calc3
         
     def checkLatlon(self, code_chm):
         # function check if CRS is projected or not
@@ -441,7 +447,7 @@ class ChmFromLidar ():
         # if is goegraphic or latlon = 1
         osr.UseExceptions()
         srs = osr.SpatialReference()
-        srs.ImportFromEPSG(code_chm)  # this will now raise RuntimeError for corrupt data
+        srs.ImportFromEPSG(int(code_chm))  # this will now raise RuntimeError for corrupt data
         text=srs.ExportToProj4()
 
         srs_var=text.split()
@@ -529,13 +535,14 @@ class ChmFromLidar ():
                 return self.spinResBox
             return self.tableRes
         
-    def resample(self, res, chm_pathfile, chm_out_tempdir, code_chm):
-        chm_res_temppathfile = os.path.join(chm_out_tempdir.name, '{}_res.tif'.format(self.chmFinalName))
+    def resample(self, res, chmFinalName, chm_out_tempdir, code_chm):
+        chm_res_temppathfile = os.path.join(chm_out_tempdir.name, '{}_res.tif'.format(chmFinalName))
         if self.spinResBox != 0.00:
+            chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
             print('fai resample 1')
-            processing.run("gdal:warpreproject", {'INPUT': chm_pathfile,
+            processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                 'SOURCE_CRS': None,
-                'TARGET_CRS': None,
+                'TARGET_CRS': chm_temppathfile,
                 'RESAMPLING': 1,
                 'NODATA': None,
                 'TARGET_RESOLUTION' : self.convertRes(code_chm),
@@ -543,10 +550,11 @@ class ChmFromLidar ():
                 'OUTPUT': chm_res_temppathfile})
             return chm_res_temppathfile
         elif len(self.unique(res)) > 1 and self.spinResBox == 0.00:
+            chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
             print('fai resample 2')
-            processing.run("gdal:warpreproject", {'INPUT': chm_pathfile,
+            processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                 'SOURCE_CRS': None,
-                'TARGET_CRS': None,
+                'TARGET_CRS': chm_temppathfile,
                 'RESAMPLING': 1,
                 'NODATA': None,
                 'TARGET_RESOLUTION' : self.convertRes(),
@@ -554,10 +562,14 @@ class ChmFromLidar ():
                 'OUTPUT': chm_res_temppathfile})
             return chm_res_temppathfile
         else:
-            return chm_pathfile
+            print('no resample')
+            chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
+            return chm_temppathfile
             
-    def clip(self, chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile):
+    def clip(self, chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile, sf):
         print('eccolo la funzione clip')
+        print(chm_list_merge)
+        print(chm_out_tempdir.name)
         processing.run("gdal:merge", {'INPUT' : chm_list_merge,
             'DATA_TYPE' : 5,
             # #'CRS' : QgsCoordinateReferenceSystem('EPSG:4326'),
@@ -565,26 +577,64 @@ class ChmFromLidar ():
         
         merge_pathfile = os.path.join(chm_out_tempdir.name, 'merge.tif')
         
+        print(merge_pathfile)
+
         processing.run("gdal:cliprasterbymasklayer", {'INPUT' : merge_pathfile,
             'MASK' : selectedAoiFeats,
             'NODATA' : -9999,
             'OUTPUT': '{}/clip.tif'.format(chm_out_tempdir.name)})
         
         clip_temppathfile = os.path.join(chm_out_tempdir.name, 'clip.tif')
+        clip_repr_temppathfile = os.path.join(chm_out_tempdir.name, 'clip_repr.tif')
+        clip_trans_temppathfile = os.path.join(chm_out_tempdir.name, 'clip_tran{}'.format(f2))
+        ####### AGGIUNGERE TUTTE LE CASISTICHE DI POST CALC PER IL CLIP ######
 
         if f1 == 'GeoTIFF':
-            shutil.move(clip_temppathfile, clip_pathfile)
-        else:
-            clip_trans_temppathfile = os.path.join(chm_out_tempdir.name, 'clip{}'.format(f2))
-            processing.run("gdal:translate", {'INPUT': clip_temppathfile,
-                'TARGET_CRS': clip_temppathfile,
-                'NODATA': None,
-                'COPY_SUBDATASETS': False,
-                'DATA_TYPE': 0,
-                'OUTPUT': clip_trans_temppathfile})
+            if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
+                shutil.move(clip_temppathfile, clip_pathfile)
+            else:
+                print(self.selectedcrs)
                 
+                processing.run("gdal:warpreproject", {'INPUT': clip_temppathfile,
+                    'SOURCE_CRS': None,
+                    'TARGET_CRS': self.selectedcrs,
+                    'RESAMPLING': 1,
+                    'NODATA': None,
+                    'DATA_TYPE': 0,
+                    'OUTPUT': clip_repr_temppathfile})
+                
+                shutil.move(clip_repr_temppathfile, clip_pathfile)    
+            
+        elif f1 != 'GeoTIFF':
+            print('stai salvando in un altro formato')
+            if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
+                print('stai salvando in un altro formato con 4326')
+                processing.run("gdal:translate", {'INPUT': clip_temppathfile,
+                    'TARGET_CRS': clip_temppathfile,
+                    'NODATA': None,
+                    'COPY_SUBDATASETS': False,
+                    'DATA_TYPE': 0,
+                    'OUTPUT': clip_trans_temppathfile})
+            else:
+                #chm_warp_temppathfile = os.path.join(chm_out_tempdir.name, '{}_warp.tif'.format(chmFinalName))
+            
+                processing.run("gdal:warpreproject", {'INPUT': clip_temppathfile,
+                    'SOURCE_CRS': None,
+                    'TARGET_CRS': self.selectedcrs,
+                    'RESAMPLING': 1,
+                    'NODATA': None,
+                    'DATA_TYPE': 0,
+                    'OUTPUT': clip_repr_temppathfile})
+                    
+                processing.run("gdal:translate", {'INPUT': clip_repr_temppathfile,
+                    'TARGET_CRS': clip_repr_temppathfile,
+                    'NODATA': None,
+                    'COPY_SUBDATASETS': False,
+                    'DATA_TYPE': 0,
+                    'OUTPUT': clip_trans_temppathfile})    
+    
             for clip in os.listdir(chm_out_tempdir.name):
-                if clip.startswith('clip'):
+                if clip.startswith('clip_tran'):
                     filename, file_extension = os.path.splitext(clip)
                     file_name = clip.replace(filename, self.NameClip)
                     print(file_name)
@@ -624,15 +674,15 @@ class ChmFromLidar ():
             self.dlg.activateWindow()
     
     def prepRun(self):
-        if QgsProject.instance().mapLayersByName('tile_regione_veneto'):
+        if QgsProject.instance().mapLayersByName('tile_dsm_dtm'):
             print('già esiste')
-            self.lyr = QgsProject.instance().mapLayersByName('tile_regione_veneto')[0]
+            self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
         else:
-            path = os.path.join(self.plugin_dir, 'tile_regione_veneto.gpkg')
+            path = os.path.join(self.plugin_dir, 'tile_dsm_dtm.gpkg')
             print(path)
-            lyr_tile = QgsVectorLayer(path, 'tile_regione_veneto')
+            lyr_tile = QgsVectorLayer(path, 'tile_dsm_dtm')
             QgsProject.instance().addMapLayers([lyr_tile])
-            self.lyr = QgsProject.instance().mapLayersByName('tile_regione_veneto')[0]
+            self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
 
         uniquevalues = []
         #print(uniquevalues)
@@ -713,6 +763,7 @@ class ChmFromLidar ():
         self.pluginIsActive = False
         self.selectedcrs = ''
         self.chmFinalName = ''
+        #self.chmFinalName2 = ''
         self.checkNegBox = True
         self.spinMaxBox = 0
         self.comboIndex = 0
@@ -766,6 +817,7 @@ class ChmFromLidar ():
         print(chm_calc)
         
         self.chmFinalName = chm_calc
+        #self.chmFinalName2 = chm_calc
         
         self.enableCalc2[self.checkNegBox](chm_calc, chm_out_tempdir, chm_calc2)
         if self.checkNegBox == True:
@@ -774,7 +826,7 @@ class ChmFromLidar ():
             self.enableCalc3[self.spinMaxBox > 0](chm_calc, chm_out_tempdir, chm_calc3)
 
         
-    def postCalc(self, chm_out_tempdir, chmFinalName, chm_pathfile, f1, sf, f2): #, chm_fname
+    def postCalc(self, chm_out_tempdir, chmFinalName, chm_pathfile, f1, sf, f2, chm_fname):
         chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
         chm_warp_temppathfile = os.path.join(chm_out_tempdir.name, '{}_warp.tif'.format(chmFinalName))
         chm_trans_temppathfile = os.path.join(chm_out_tempdir.name, '{}_trans{}'.format(chmFinalName, f2))
@@ -782,8 +834,10 @@ class ChmFromLidar ():
             print('stai salvando in geotif')
             print(f2)
             if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
+                chm_temppathfile_copy = os.path.join(chm_out_tempdir.name, '{}_copy.tif'.format(chmFinalName))
                 print('sono qui')
-                shutil.move(chm_temppathfile, chm_pathfile)
+                copyfile(chm_temppathfile, chm_temppathfile_copy)
+                shutil.move(chm_temppathfile_copy, chm_pathfile)
                 
             #elif self.code != sf["SR_EPSG"] or self.code != self.epsg_cam:
             else:
@@ -851,7 +905,7 @@ class ChmFromLidar ():
     
     def run(self):
         print('sono in run')
-        self.dlg.textLog.setText('PROCESS STARTED...\n\n')
+        self.dlg.textLog.setText('PROCESS STARTED...\n')
         QCoreApplication.processEvents()
         #directory = 'C:/Users/user/Documents'
         """Run method that performs all the real work"""
@@ -866,10 +920,10 @@ class ChmFromLidar ():
             print('No feature selected')
 
         if self.NameClip == 'clip' and self.aoiIndex != -1:
-            self.dlg.textLog.append('WARNING: no output clip name has been selected, the default one will be used')
+            self.dlg.textLog.append('WARNING: no output clip name has been selected, the default one will be used\n')
         
         if self.chm_path_folder == '':
-            self.dlg.textLog.append('ERROR: no output folder has been selected')
+            self.dlg.textLog.append('ERROR: no output folder has been selected\n')
             return
         
         result = True
@@ -966,12 +1020,18 @@ class ChmFromLidar ():
                             for fAoi in selectedAoi.getFeatures():
                                 if f.geometry().intersects(fAoi.geometry()):
                                     self.lyr.select(f.id())
+                                    
+                                    
+            if self.lyr.selectedFeatureCount() == 0:
+                self.dlg.textLog.append('ATTENTION! No tiles have been selected. The selected AOI does not intersect the selected Campaign. Check the input parameters.')
+                return
             
             fi_ov = []
             fi2_ov = []
             fi_res = []
             fi_an = []
             fi_epsg = []
+            fi_ente = []
             log_dict = {}
             if self.aoiIndex != -1 and self.comboIndex == 0:
                 #fi2_res = []
@@ -988,8 +1048,9 @@ class ChmFromLidar ():
                     fi_res.append(fi["RISOLUZ_RA"])
                     fi_an.append(fi["ANNO"])
                     fi_epsg.append(fi["SR_EPSG"])
+                    fi_ente.append(fi["ENTE"])
                     print(fi["ANNO"])
-                    log_dict[fi_ov[-1]] = (fi_an[-1], fi_res[-1])
+                    log_dict[fi_ov[-1]] = (fi_an[-1], fi_res[-1], fi_ente[-1])
                     i = fi.id()
                 #    if f.id() == i:
                     for fi2 in self.lyr.getSelectedFeatures():
@@ -1016,15 +1077,13 @@ class ChmFromLidar ():
                     epsg_cam = self.unique(fi_epsg)[0]
                     if self.spinResBox != 0.00 and self.tableRes > self.spinResBox:
                         print(self.spinResBox)
-                        self.dlg.textLog.append("WARNING: a resolution lower than\
-                        the one of the input data has been selected")
+                        self.dlg.textLog.append("WARNING: a resolution lower than the one of the input data has been selected\n")
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) == 0:
                     self.tableRes = max(fi_res)
                     if len(self.unique(fi_epsg)) == 1:
                         epsg_cam = self.unique(fi_epsg)[0]
                     elif len(self.unique(fi_epsg)) > 1 and self.selectedcrs == '':
-                        self.dlg.textLog.append("WARNING: different campaigns with different CRS\
-                        have been selected:\n")
+                        self.dlg.textLog.append("WARNING: different campaigns with different CRS have been selected:\n")
                         kk = 0
                         while kk < len(self.unique(fi_epsg)):
                             self.dlg.textLog.append("EPSG: {}\n".format(self.unique(fi_epsg)[kk]))
@@ -1034,8 +1093,7 @@ class ChmFromLidar ():
 
                     if self.spinResBox != 0.00 and self.tableRes > self.spinResBox:
                         print(self.spinResBox)
-                        self.dlg.textLog.append("WARNING: a resolution lower than\
-                        the one of the input data has been selected")
+                        self.dlg.textLog.append("WARNING: a resolution lower than the one of the input data has been selected\n")
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) > 1:
                     print('comparirà il log')
                     self.overlapLog(fi_ov, log_dict)
@@ -1115,12 +1173,12 @@ class ChmFromLidar ():
                 dtm_exist = os.path.isfile(dtm_pathfile)
                 if dsm_exist == True and dtm_exist == True:
                     ds = gdal.Open(dsm_pathfile)
-                    dsm_temp = os.path.join(chm_out_tempdir.name, sf["N_DSM"])
+                    dsm_temp = os.path.join(chm_out_tempdir.name, '{}.tif'.format(dsm_name[0]))
                     ds = gdal.Translate(dsm_temp, ds, outputSRS = 'EPSG:{}'.format(sf["SR_EPSG"]))
                     ds = None
 
                     ds = gdal.Open(dtm_pathfile)
-                    dtm_temp = os.path.join(chm_out_tempdir.name, sf["N_DTM"])
+                    dtm_temp = os.path.join(chm_out_tempdir.name, '{}.tif'.format(dtm_name[0]))
                     ds = gdal.Translate(dtm_temp, ds, outputSRS = 'EPSG:{}'.format(sf["SR_EPSG"]))
                     ds = None
                     lyr_dsm = QgsRasterLayer(dsm_temp, dsm_name[0])
@@ -1143,13 +1201,15 @@ class ChmFromLidar ():
                     chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
                     print(chm_pathfile)
                     
+                    #pippo = '{}'.format(self.chmFinalName)
+                    
                     self.Calc(dsm_name, dtm_name, chm_out_tempdir, chm_fname, lyr_dsm, lyr_dtm, dsm_pathfile, dtm_pathfile, sf)
-                    self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2)#, chm_fname
+                    self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2, chm_fname)
                     lyr_chm = QgsRasterLayer(chm_pathfile, chm_fname)
                     chm_crs = lyr_chm.crs().authid()
                     code_chm = chm_crs.split(':')
                     
-                    chm_res_pathfile = self.resample(fi_res, chm_pathfile, chm_out_tempdir, code_chm[1])
+                    chm_res_pathfile = self.resample(fi_res, self.chmFinalName, chm_out_tempdir, code_chm[1])
                     
 
                     
@@ -1182,6 +1242,7 @@ class ChmFromLidar ():
                     QgsProject.instance().addMapLayers([lyr_chm])
                     
                     chm_list_merge.append(chm_res_pathfile)
+                    print(chm_list_merge)
                     
                 else:
                     if dsm_exist == False and dtm_exist == True:
@@ -1197,8 +1258,9 @@ class ChmFromLidar ():
             
             if self.aoiIndex != -1 and len(chm_list_merge) > 0:
                 clip_pathfile = os.path.join(self.chm_path_folder, '{}{}'.format(self.NameClip, f2))
-                self.clip(chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile)
-            
+                self.clip(chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile, sf)
+                lyr_clip = QgsRasterLayer(clip_pathfile, self.NameClip)
+                QgsProject.instance().addMapLayers([lyr_clip])
                 
             #self.iface.messageBar().pushSuccess("Success", "Selection Done.")
             print('sono in run e ora chiudo')
