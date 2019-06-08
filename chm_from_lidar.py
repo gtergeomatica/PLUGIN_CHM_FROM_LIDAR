@@ -108,6 +108,7 @@ class ChmFromLidar ():
         self.raster_format = []
         self.show_values = []
         self.lyr = ''
+        self.rs_count = 0
         #self.dlg.checkNegValBox.stateChanged.connect(lambda:self.handleCheckBox(self.dlg.checkNegValBox))
         #self.dlg.checkNegValBox.toggle()
 		
@@ -262,8 +263,12 @@ class ChmFromLidar ():
         else:
             txt_aoi = selectedAoi.name()
         text.append("Input parameters: \nAOI = {},\n".format(txt_aoi) + 
-        "Selected Feature Checkbos = {},\n".format(self.dlg.checkSelFeatbox.isChecked()) +
-        "Campaign = {},\n".format(selectedCampaign) +
+        "Selected Feature Checkbos = {},".format(self.dlg.checkSelFeatbox.isChecked()))
+        if self.comboIndex == 0:
+            txt_camp = 'no data selected'
+        else:
+            txt_camp = selectedCampaign
+        text.append("Campaign = {},\n".format(txt_camp) +
         "Clip Raster Name = {},".format(self.NameClip))
         if self.spinResBox == 0.00:
             text.append("Clip Output Resolution = {},".format(self.tableRes))
@@ -275,8 +280,12 @@ class ChmFromLidar ():
             text.append("Output CRS = EPSG: {},".format(sf["SR_EPSG"]))
         else:
             text.append("Output CRS = {},".format(self.selectedcrs))
-        text.append("Remove values < 0 = {},\n".format(self.dlg.checkNegValBox.isChecked()) +
-        "Max value threshold = {}\n".format(self.spinMaxBox))
+        text.append("Remove values < 0 = {},".format(self.dlg.checkNegValBox.isChecked()))
+        if self.spinMaxBox == 0:
+            txt_max = 'no threshold selected'
+        else:
+            txt_max = self.spinMaxBox
+        text.append("Max value threshold = {}\n".format(txt_max))
         text.append("*** PROCESS FINISHED! ***")
         
     def overlapLog(self, fi_ov, log_dict):
@@ -335,6 +344,7 @@ class ChmFromLidar ():
     def comboBoxe(self, idx):
         print('fai qualcosa')
         self.comboIndex = idx
+        print(self.comboIndex)
         vlayer = self.dlg.comboAoiBox.currentLayer()
         # #print(self.comboIndex)
         # #print(self.comboIndex - 1)
@@ -465,6 +475,7 @@ class ChmFromLidar ():
         return check_geo
         
     def latLonres(self, code_chm, ress):
+        print('sono in latlonres')
         # Input:
         # 0: EPSG
         # 1: risoluzione
@@ -474,11 +485,12 @@ class ChmFromLidar ():
         input_res = ress
         input_epsg = code_chm
         print(path.name)
-
+        print(input_epsg)
+        print(input_res)
         #inviluppo=os.path.join(path.name,'inviluppo.shp')
-        centro=os.path.join(path.name,'centro.shp')
-        buffer=os.path.join(path.name,'buffer.shp')
-        buffer_r=os.path.join(path.name,'input.shp')
+        centro=os.path.join(path.name,'centro_{}.shp'.format(self.rs_count))
+        buffer=os.path.join(path.name,'buffer_{}.shp'.format(self.rs_count))
+        buffer_r=os.path.join(path.name,'input_{}.shp'.format(self.rs_count))
         n_centro='centro'
         
 
@@ -517,9 +529,9 @@ class ChmFromLidar ():
             resol = (f.geometry().boundingBox().xMaximum() - f.geometry().boundingBox().xMinimum())/2
             
             #raggio = perimeter/(pi*2)
-
+        self.rs_count += 1
         #print("EST={},NORD={}".format(EST,NORD))
-
+        print(resol)
         return resol
         
     def convertRes(self, code_chm):
@@ -540,24 +552,27 @@ class ChmFromLidar ():
         if self.spinResBox != 0.00:
             chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
             print('fai resample 1')
+            print(chm_temppathfile)
             processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                 'SOURCE_CRS': None,
-                'TARGET_CRS': chm_temppathfile,
+                'TARGET_CRS': 'EPSG:{}'.format(code_chm),
                 'RESAMPLING': 1,
                 'NODATA': None,
                 'TARGET_RESOLUTION' : self.convertRes(code_chm),
                 'DATA_TYPE': 0,
                 'OUTPUT': chm_res_temppathfile})
+            print(chm_res_temppathfile)
             return chm_res_temppathfile
+
         elif len(self.unique(res)) > 1 and self.spinResBox == 0.00:
             chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
             print('fai resample 2')
             processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                 'SOURCE_CRS': None,
-                'TARGET_CRS': chm_temppathfile,
+                'TARGET_CRS': 'EPSG:{}'.format(code_chm),
                 'RESAMPLING': 1,
                 'NODATA': None,
-                'TARGET_RESOLUTION' : self.convertRes(),
+                'TARGET_RESOLUTION' : self.convertRes(code_chm),
                 'DATA_TYPE': 0,
                 'OUTPUT': chm_res_temppathfile})
             return chm_res_temppathfile
@@ -850,9 +865,9 @@ class ChmFromLidar ():
                     'NODATA': None,
                     'DATA_TYPE': 0,
                     'OUTPUT': chm_warp_temppathfile})
-                
+
                 shutil.move(chm_warp_temppathfile, chm_pathfile)
-                    
+                print(chm_temppathfile)   
         elif f1 != 'GeoTIFF':
             print('stai salvando in un altro formato')
             if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
