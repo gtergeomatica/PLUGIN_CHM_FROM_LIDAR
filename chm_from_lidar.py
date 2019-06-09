@@ -778,6 +778,7 @@ class ChmFromLidar ():
         self.pluginIsActive = False
         self.selectedcrs = ''
         self.chmFinalName = ''
+        self.chm_path_folder = ''
         #self.chmFinalName2 = ''
         self.checkNegBox = True
         self.spinMaxBox = 0
@@ -786,9 +787,18 @@ class ChmFromLidar ():
         self.spinResBox = 0.00
         self.tableRes = 0.00
         self.NameClip = 'clip'
+        #self.chm_out_tempdir_s = ''
+        
+        self.raster_format = []
+        self.show_values = []
+        self.lyr = ''
+        self.rs_count = 0
+        
         if self.chm_out_tempdir_s != '':
             self.chm_out_tempdir_s.cleanup()
-        #print(self.checkNegBox)
+
+        self.chm_out_tempdir_s = ''
+
         from qgis.utils import reloadPlugin
         reloadPlugin("ChmFromLidar")
         print(self.checkNegBox)
