@@ -99,6 +99,7 @@ class ChmFromLidar ():
         self.checkNegBox = True
         self.spinMaxBox = 0
         self.comboIndex = 0
+        self.enteIndex = 0
         self.aoiIndex = -1
         self.spinResBox = 0.00
         self.tableRes = 0.00
@@ -107,6 +108,7 @@ class ChmFromLidar ():
         
         self.raster_format = []
         self.show_values = []
+        self.ente_values = []
         self.lyr = ''
         self.rs_count = 0
         #self.dlg.checkNegValBox.stateChanged.connect(lambda:self.handleCheckBox(self.dlg.checkNegValBox))
@@ -376,9 +378,52 @@ class ChmFromLidar ():
                 print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
                 self.dlg.checkSelFeatbox.setToolTip("Use only selected features")
+    
+    def enteBox(self, idxe):
+        print('ente')
+        self.enteIndex = idxe
+        if self.enteIndex == 0:
+            uniquevalues = []
+            # #print(uniquevalues)
+            uniqueprovider = self.lyr.dataProvider()
+            fields = uniqueprovider.fields()
+            id = fields.indexFromName('P_CAMPAGNA')
+            uniquevalues = list(uniqueprovider.uniqueValues( id ))
+            # #print(len(uniquevalues))
+            # #print(uniquevalues)
             
+            self.show_values = []
+            for uv in uniquevalues:
+                #print (uv)
+                if uv != NULL and uv != '':
+                    str_value = str(uv)
+                    self.show_values.append(str_value)
+                # #str_values = str(uv).split("\\")
+                # #if len(str_values) > 1: #per percorsi regione veneto mettere 4
+                    # #show_values.append(str_values[1] + ' - ' + str_values[2]) #per percorsi regione veneto mettere 5 e 6
+            print (self.show_values)
+            
+            self.dlg.comboBox.clear()
+            self.dlg.comboBox.addItem('') #--> aggiunge una riga vuota nell'elenco della combo
+            self.dlg.comboBox.addItems(sv for sv in self.show_values)
+        else:
+            self.show_values = []
+            filter = self.dlg.comboEnteBox.currentText()
+            print (filter)
+            values = [feat['P_CAMPAGNA'] for feat in self.lyr.getFeatures() if feat['ENTE'] == filter]
+            list_val = set(values)
+            for uv in list_val:
+                if uv != '':
+                    self.show_values.append(uv)
+            
+            self.dlg.comboBox.clear()        
+            self.dlg.comboBox.addItem('') #--> aggiunge una riga vuota nell'elenco della combo
+            #self.dlg.comboBox.addItems(sv for sv in self.show_values)
+            self.dlg.comboBox.addItems(sv for sv in self.show_values)
+        
     def AoicomboBoxe(self, aidx):
         self.aoiIndex = aidx
+        print('AOI combo')
         vlayer = self.dlg.comboAoiBox.currentLayer()
         print(vlayer)
         #if self.aoiIndex != -1 and self.comboIndex == 0:
@@ -664,6 +709,23 @@ class ChmFromLidar ():
     def noop(self, *args):
         print('eccolo la funzione noop')
         
+    def popComboEnte(self):
+        uniqueprovider = self.lyr.dataProvider()
+        fields = uniqueprovider.fields()
+        unique_ente = []
+        id_ente = fields.indexFromName('ENTE') 
+        unique_ente = list(uniqueprovider.uniqueValues( id_ente ))
+
+        self.ente_values = []
+        for uv_e in unique_ente:
+            if uv_e != NULL:
+                str_value_e = str(uv_e)
+                self.ente_values.append(str_value_e)
+                
+        self.dlg.comboEnteBox.clear()
+        self.dlg.comboEnteBox.addItem('')
+        self.dlg.comboEnteBox.addItems(ev for ev in self.ente_values)
+        
     def pressIcon(self):
         if not self.pluginIsActive:
             self.pluginIsActive = True
@@ -675,6 +737,7 @@ class ChmFromLidar ():
             self.dlg.clearButton.clicked.connect(self.clearButton)
             self.dlg.checkNegValBox.stateChanged.connect(self.handleCheckBox)
             self.dlg.spinMaxValBox.valueChanged.connect(self.handleSpinBox)
+            self.dlg.comboEnteBox.currentIndexChanged.connect(self.enteBox)
             self.dlg.comboBox.currentIndexChanged.connect(self.comboBoxe)
             self.dlg.comboAoiBox.currentIndexChanged.connect(self.AoicomboBoxe)
             self.dlg.resolSpinBox.valueChanged.connect(self.handleResSpinBox)
@@ -698,40 +761,17 @@ class ChmFromLidar ():
             lyr_tile = QgsVectorLayer(path, 'tile_dsm_dtm')
             QgsProject.instance().addMapLayers([lyr_tile])
             self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
+        
 
-        uniquevalues = []
-        #print(uniquevalues)
-        uniqueprovider = self.lyr.dataProvider()
-        fields = uniqueprovider.fields()
-        id = fields.indexFromName('P_CAMPAGNA')
-        uniquevalues = list(uniqueprovider.uniqueValues( id ))
-        #print(len(uniquevalues))
-        #print(uniquevalues)
+        self.popComboEnte()
         
-        self.show_values = []
-        for uv in uniquevalues:
-            #print (uv)
-            if uv != NULL:
-            #pippo = r'{}'.format(uv)
-                str_value = str(uv)
-                self.show_values.append(str_value)
-            #str_values = str(uv).split("\\")
-            #if len(str_values) > 1: #per percorsi regione veneto mettere 4
-                #show_values.append(str_values[1] + ' - ' + str_values[2]) #per percorsi regione veneto mettere 5 e 6
-        print (self.show_values)
-        
-        self.dlg.comboBox.clear()
-        # Populate the comboBox with names of all the loaded layers
-        ###I TRE PASSAGGI COMMENTATI SOTTO SONO UTILI PER LA COMBOBOX DA CUI SCELGONO L'AREA DI INTERESSE
-        self.dlg.comboBox.addItem('') #--> aggiunge una riga vuota nell'elenco della combo
-        self.dlg.comboBox.addItems(sv for sv in self.show_values)
-        #self.dlg.comboBox.setCurrentIndex(0) #--> setta come valore di default della combobox la riga vuota
         print(self.dlg.comboBox.currentIndex()) #--> restituisce l'indice della riga selezionata
         
+        self.dlg.comboAoiBox.clear()
         self.dlg.comboAoiBox.setFilters(QgsMapLayerProxyModel.HasGeometry)
         self.dlg.comboAoiBox.setCurrentIndex(-1)
         #self.dlg.comboAoiBox.addItem('ciao')
-        print(self.dlg.comboAoiBox.currentIndex())
+        #print(self.dlg.comboAoiBox.currentIndex())
         
         
         #gdal.AllRegister()
@@ -763,6 +803,7 @@ class ChmFromLidar ():
         self.dlg.spinMaxValBox.valueChanged.disconnect(self.handleSpinBox)
         self.dlg.checkNegValBox.stateChanged.disconnect(self.handleCheckBox)
         self.dlg.comboBox.currentIndexChanged.disconnect(self.comboBoxe)
+        self.dlg.comboEnteBox.currentIndexChanged.disconnect(self.enteBox)
         self.dlg.comboAoiBox.currentIndexChanged.disconnect(self.AoicomboBoxe)
         self.dlg.resolSpinBox.valueChanged.disconnect(self.handleResSpinBox)
         self.dlg.clipName.textChanged.disconnect(self.handleClipName)
@@ -783,6 +824,7 @@ class ChmFromLidar ():
         self.checkNegBox = True
         self.spinMaxBox = 0
         self.comboIndex = 0
+        self.enteIndex = 0
         self.aoiIndex = -1
         self.spinResBox = 0.00
         self.tableRes = 0.00
@@ -791,6 +833,7 @@ class ChmFromLidar ():
         
         self.raster_format = []
         self.show_values = []
+        self.ente_values = []
         self.lyr = ''
         self.rs_count = 0
         
@@ -1132,7 +1175,10 @@ class ChmFromLidar ():
                 #else:
                     #print('NO')
             #print(fids)
-            #lyr.select(fids)
+            #creates layer group
+            root = QgsProject.instance().layerTreeRoot()
+            group_lyr = root.insertGroup(0, '{}'.format(datetime.now().strftime("%Y%m%d_%H%M%S")))
+            
             if self.dlg.clipName.isEnabled() == True:
                 name_new_lyr = '{}_{}_selectedTiles'.format(self.NameClip, datetime.now().strftime("%Y%m%d_%H%M%S"))
             else:
@@ -1142,13 +1188,15 @@ class ChmFromLidar ():
             'OUTPUT' : '{}/{}'.format(self.chm_path_folder, name_new_shp)})
             
             new_lyr_tile = QgsVectorLayer(os.path.join(self.chm_path_folder, name_new_shp), name_new_lyr)
-            QgsProject.instance().addMapLayers([new_lyr_tile])
-            
+            QgsProject.instance().addMapLayers([new_lyr_tile], False)
+            group_lyr.insertLayer(-1, new_lyr_tile)
             self.dlg.textLog.append('COMPUTING CHM...\nThe process may take some time..\n')
             QCoreApplication.processEvents()
             chm_res = []
+           
             new_lyr_tile.startEditing()
             i_id = 0
+            pos = 0
             for sf in self.lyr.getSelectedFeatures():
                 sf_id = sf.id()
                 pfield_id = sf.fields().indexFromName('P_CHM')
@@ -1226,7 +1274,6 @@ class ChmFromLidar ():
                     chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
                     print(chm_pathfile)
                     
-                    #pippo = '{}'.format(self.chmFinalName)
                     
                     self.Calc(dsm_name, dtm_name, chm_out_tempdir, chm_fname, lyr_dsm, lyr_dtm, dsm_pathfile, dtm_pathfile, sf)
                     self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2, chm_fname)
@@ -1264,8 +1311,9 @@ class ChmFromLidar ():
                     
                     # print(chm_pathfile)
                     # print(chm_fname)
-                    QgsProject.instance().addMapLayers([lyr_chm])
-                    
+                    QgsProject.instance().addMapLayers([lyr_chm], False)
+                    group_lyr.insertLayer(pos, lyr_chm)
+                    pos += 1
                     chm_list_merge.append(chm_res_pathfile)
                     print(chm_list_merge)
                     
@@ -1285,8 +1333,8 @@ class ChmFromLidar ():
                 clip_pathfile = os.path.join(self.chm_path_folder, '{}{}'.format(self.NameClip, f2))
                 self.clip(chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile, sf)
                 lyr_clip = QgsRasterLayer(clip_pathfile, self.NameClip)
-                QgsProject.instance().addMapLayers([lyr_clip])
-                
+                QgsProject.instance().addMapLayers([lyr_clip], False)
+                group_lyr.insertLayer(0, lyr_clip)
             #self.iface.messageBar().pushSuccess("Success", "Selection Done.")
             print('sono in run e ora chiudo')
             self.mainLog(selectedAoi, selectedCampaign, selectedFormat, sf)
