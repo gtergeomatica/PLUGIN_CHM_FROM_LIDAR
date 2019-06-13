@@ -759,6 +759,7 @@ class ChmFromLidar ():
             path = os.path.join(self.plugin_dir, 'tile_dsm_dtm.gpkg')
             print(path)
             lyr_tile = QgsVectorLayer(path, 'tile_dsm_dtm')
+            lyr_tile.setSubsetString('"N_DTM" NOT NULL and "N_DSM" NOT NULL')
             QgsProject.instance().addMapLayers([lyr_tile])
             self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
         
