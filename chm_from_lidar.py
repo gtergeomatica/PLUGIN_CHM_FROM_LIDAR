@@ -69,7 +69,7 @@ class ChmFromLidar ():
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
-            'ChmFromLidar_{}.qm'.format(locale))
+            '{}.qm'.format(locale))
 
         if os.path.exists(locale_path):
             self.translator = QTranslator()
@@ -264,30 +264,30 @@ class ChmFromLidar ():
             txt_aoi = self.tr('no data selected')
         else:
             txt_aoi = selectedAoi.name()
-        text.append(self.tr("Input parameters: \nAOI = {},\n".format(txt_aoi)) + 
-        self.tr("Selected Feature Checkbos = {},".format(self.dlg.checkSelFeatbox.isChecked())))
+        text.append(self.tr("Input parameters: \nAOI = {},\n").format(txt_aoi) + 
+        self.tr("Selected Feature Checkbos = {},").format(self.dlg.checkSelFeatbox.isChecked()))
         if self.comboIndex == 0:
             txt_camp = self.tr('no data selected')
         else:
             txt_camp = selectedCampaign
-        text.append(self.tr("Campaign = {},\n".format(txt_camp)) +
-        self.tr("Clip Raster Name = {},".format(self.NameClip)))
+        text.append(self.tr("Campaign = {},\n").format(txt_camp) +
+        self.tr("Clip Raster Name = {},").format(self.NameClip))
         if self.spinResBox == 0.00:
-            text.append(self.tr("Clip Output Resolution = {},".format(self.tableRes)))
+            text.append(self.tr("Clip Output Resolution = {},").format(self.tableRes))
         else:
-            text.append(self.tr("Clip Output Resolution = {},".format(self.spinResBox)))
-        text.append(self.tr("Output Folder = {},\n".format(self.chm_path_folder)) +
-        self.tr("Output Format = {},".format(selectedFormat)))
+            text.append(self.tr("Clip Output Resolution = {},").format(self.spinResBox))
+        text.append(self.tr("Output Folder = {},\n").format(self.chm_path_folder) +
+        self.tr("Output Format = {},").format(selectedFormat))
         if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
-            text.append(self.tr("Output CRS = EPSG: {},".format(sf["SR_EPSG"])))
+            text.append(self.tr("Output CRS = EPSG: {},").format(sf["SR_EPSG"]))
         else:
-            text.append(self.tr("Output CRS = {},".format(self.selectedcrs)))
-        text.append(self.tr("Remove values < 0 = {},".format(self.dlg.checkNegValBox.isChecked())))
+            text.append(self.tr("Output CRS = {},").format(self.selectedcrs))
+        text.append(self.tr("Remove values < 0 = {},").format(self.dlg.checkNegValBox.isChecked()))
         if self.spinMaxBox == 0:
             txt_max = self.tr('no threshold selected')
         else:
             txt_max = self.spinMaxBox
-        text.append(self.tr("Max value threshold = {}\n".format(txt_max)))
+        text.append(self.tr("Max value threshold = {}\n").format(txt_max))
         text.append(self.tr("*** PROCESS FINISHED! ***"))
         
     def overlapLog(self, fi_ov, log_dict):
@@ -1155,7 +1155,7 @@ class ChmFromLidar ():
                         self.dlg.textLog.append(self.tr("WARNING: different campaigns with different CRS have been selected:\n"))
                         kk = 0
                         while kk < len(self.unique(fi_epsg)):
-                            self.dlg.textLog.append(self.tr("EPSG: {}\n".format(self.unique(fi_epsg)[kk])))
+                            self.dlg.textLog.append(self.tr("EPSG: {}\n").format(self.unique(fi_epsg)[kk]))
                             kk += 1
                         self.dlg.textLog.append(self.tr("Please, select the output CRS.\n"))
                         return
@@ -1320,13 +1320,13 @@ class ChmFromLidar ():
                     
                 else:
                     if dsm_exist == False and dtm_exist == True:
-                        self.dlg.textLog.append(self.tr("WARNING: DSM file {} not found. The related CHM will not be computed.\n".format(sf["N_DSM"])))
+                        self.dlg.textLog.append(self.tr("WARNING: DSM file {} not found. The related CHM will not be computed.\n").format(sf["N_DSM"]))
                         QCoreApplication.processEvents()
                     elif dtm_exist == False and dsm_exist == True:
-                        self.dlg.textLog.append(self.tr("WARNING: DTM file {} not found. The related CHM will not be computed.\n".format(sf["N_DTM"])))
+                        self.dlg.textLog.append(self.tr("WARNING: DTM file {} not found. The related CHM will not be computed.\n").format(sf["N_DTM"]))
                         QCoreApplication.processEvents()
                     elif dsm_exist == False and dtm_exist == False:
-                        self.dlg.textLog.append(self.tr("WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.\n".format(sf["N_DSM"], sf["N_DTM"])))
+                        self.dlg.textLog.append(self.tr("WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.\n").format(sf["N_DSM"], sf["N_DTM"]))
                         QCoreApplication.processEvents()
             new_lyr_tile.commitChanges()
             
