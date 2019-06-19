@@ -16,9 +16,9 @@ Notes for translation:
 <li> add the list of abbreviations of the languages to locales variable in the <b>Makefile</b>, e.g. LOCALES = en it nl de
 <li> add all the paths to the files that contains the string to be translated in the <b>Makefile</b>:
 
-SOURCES = \
-        __init__.py \
-        plugin.py plugin_dialog.py
+SOURCES = '\'
+........__init__.py '\'
+........plugin.py plugin_dialog.py
 
 UI_FILES = plugin_base.ui
 
