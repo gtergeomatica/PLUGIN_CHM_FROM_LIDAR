@@ -13,21 +13,23 @@ https://psrveneto.it/
 
 Notes for translation:
 <ul>
-<li> add the list of abbreviations of the languages to locales variable in the **Makefile**, e.g. LOCALES = en it nl de
-<li> add all the paths to the files that contains the string to be translated in the **Makefile**:
+<li> add the list of abbreviations of the languages to locales variable in the <b>Makefile</b>, e.g. LOCALES = en it nl de
+<li> add all the paths to the files that contains the string to be translated in the <b>Makefile</b>:
+
 SOURCES = \
         __init__.py \
         plugin.py plugin_dialog.py
 
 UI_FILES = plugin_base.ui
+
 <li> to translate strings in a .py file this strings have to be within the self.tr() method e.g. self.tr("this is a string"). If the string contains the .format(), only the string has to be managed with the self.tr() method while the .format() part has to be left outside e.g. self.tr("this is a string {}").format("bla")
-<li> run from a terminal **make transup** (linux) in order to create the .ts file (this command will create a .ts file for each abbreviation of the languages added to the LOCALES variable)
+<li> run from a terminal <b>make transup</b> (linux) in order to create the .ts file (this command will create a .ts file for each abbreviation of the languages added to the LOCALES variable)
 <li> open the .ts file (e.g. it.ts) with Qt Linguist
 <li> translate all the elements of the GUI and all the strings from the .py file (pay attention to new line symbols, if the original string contains a new line symbol it has to be added also to the translated string). In case of strings with {} due to .format(), the {} have to be added also to the translated string.
 <li> save the .ts file
 <li> always from Qt Linguist File --> Release to create the .qm file (NB. the .qm file is called by the plugin_name.py file in the init method, pay attention to the declared name of the .qm file)
-<li> instead of creating the .qm file from Qt Linguist, it is possible to create it running **make transcompile** in terminal (linux)
+<li> instead of creating the .qm file from Qt Linguist, it is possible to create it running <b>make transcompile</b> in terminal (linux)
 
 Whenever you add/change something in the files/UI you have to run make transup again, translate and recompile the .qm file
 
-**NB** We have modified the update-strings.sh file in the scripts folder of the plugin directory. This file initially called the pylupdate4 (line 51) tool but we have to change it with pylupdate5 because of the installed version of Qt.
+<b>NB:</b> We have modified the update-strings.sh file in the scripts folder of the plugin directory. This file initially called the pylupdate4 (line 51) tool but we have to change it with pylupdate5 because of the installed version of Qt.
