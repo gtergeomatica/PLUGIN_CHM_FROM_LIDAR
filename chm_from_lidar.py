@@ -261,45 +261,45 @@ class ChmFromLidar ():
     def mainLog(self, selectedAoi, selectedCampaign, selectedFormat, sf):
         text = self.dlg.textLog
         if selectedAoi == None:
-            txt_aoi = 'no data selected'
+            txt_aoi = self.tr('no data selected')
         else:
             txt_aoi = selectedAoi.name()
-        text.append("Input parameters: \nAOI = {},\n".format(txt_aoi) + 
-        "Selected Feature Checkbos = {},".format(self.dlg.checkSelFeatbox.isChecked()))
+        text.append(self.tr("Input parameters: \nAOI = {},\n".format(txt_aoi)) + 
+        self.tr("Selected Feature Checkbos = {},".format(self.dlg.checkSelFeatbox.isChecked())))
         if self.comboIndex == 0:
-            txt_camp = 'no data selected'
+            txt_camp = self.tr('no data selected')
         else:
             txt_camp = selectedCampaign
-        text.append("Campaign = {},\n".format(txt_camp) +
-        "Clip Raster Name = {},".format(self.NameClip))
+        text.append(self.tr("Campaign = {},\n".format(txt_camp)) +
+        self.tr("Clip Raster Name = {},".format(self.NameClip)))
         if self.spinResBox == 0.00:
-            text.append("Clip Output Resolution = {},".format(self.tableRes))
+            text.append(self.tr("Clip Output Resolution = {},".format(self.tableRes)))
         else:
-            text.append("Clip Output Resolution = {},".format(self.spinResBox))
-        text.append("Output Folder = {},\n".format(self.chm_path_folder) +
-        "Output Format = {},".format(selectedFormat))
+            text.append(self.tr("Clip Output Resolution = {},".format(self.spinResBox)))
+        text.append(self.tr("Output Folder = {},\n".format(self.chm_path_folder)) +
+        self.tr("Output Format = {},".format(selectedFormat)))
         if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
-            text.append("Output CRS = EPSG: {},".format(sf["SR_EPSG"]))
+            text.append(self.tr("Output CRS = EPSG: {},".format(sf["SR_EPSG"])))
         else:
-            text.append("Output CRS = {},".format(self.selectedcrs))
-        text.append("Remove values < 0 = {},".format(self.dlg.checkNegValBox.isChecked()))
+            text.append(self.tr("Output CRS = {},".format(self.selectedcrs)))
+        text.append(self.tr("Remove values < 0 = {},".format(self.dlg.checkNegValBox.isChecked())))
         if self.spinMaxBox == 0:
-            txt_max = 'no threshold selected'
+            txt_max = self.tr('no threshold selected')
         else:
             txt_max = self.spinMaxBox
-        text.append("Max value threshold = {}\n".format(txt_max))
-        text.append("*** PROCESS FINISHED! ***")
+        text.append(self.tr("Max value threshold = {}\n".format(txt_max)))
+        text.append(self.tr("*** PROCESS FINISHED! ***"))
         
     def overlapLog(self, fi_ov, log_dict):
         text = self.dlg.textLog
-        text.append("WARNING!! the following campaigns have been selected:\n")
+        text.append(self.tr("WARNING!! the following campaigns have been selected:\n"))
         for key, value in log_dict.items():
             text.append("ENTE: {}".format(value[2]) + "\n" +
             "CAMPAGNA: {}".format(key) + "\n" + 
             "ANNO: {}".format(value[0]) + "\n" + 
             "RISOLUZIONE: {}".format(value[1]) + "\n")
-        text.append("It is possible to visualize the current selection on the map (zoom to selection tool)\n")
-        text.append("Please, choose the desired CAMPAIGN in the campaign Combo Box" + "\n")
+        text.append(self.tr("It is possible to visualize the current selection on the map (zoom to selection tool)\n"))
+        text.append(self.tr("Please, choose the desired CAMPAIGN in the campaign Combo Box" + "\n"))
         
     def crsButton(self):
         self.crs_select = QgsProjectionSelectionDialog()
@@ -358,11 +358,11 @@ class ChmFromLidar ():
             if not vlayer.selectedFeatures():
                 self.dlg.checkSelFeatbox.setChecked(False)
                 self.dlg.checkSelFeatbox.setEnabled(False)
-                self.dlg.checkSelFeatbox.setToolTip("No features selected in layer")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
                 print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
-                self.dlg.checkSelFeatbox.setToolTip("Use only selected features")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
             # print('combo è cambiato')
             # self.dlg.comboAoiBox.setDisabled(True)
         elif self.aoiIndex != -1 and self.comboIndex == 0:
@@ -373,11 +373,11 @@ class ChmFromLidar ():
             if not vlayer.selectedFeatures():
                 self.dlg.checkSelFeatbox.setChecked(False)
                 self.dlg.checkSelFeatbox.setEnabled(False)
-                self.dlg.checkSelFeatbox.setToolTip("No features selected in layer")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
                 print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
-                self.dlg.checkSelFeatbox.setToolTip("Use only selected features")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
     
     def enteBox(self, idxe):
         print('ente')
@@ -435,11 +435,11 @@ class ChmFromLidar ():
             if not vlayer.selectedFeatures():
                 self.dlg.checkSelFeatbox.setChecked(False)
                 self.dlg.checkSelFeatbox.setEnabled(False)
-                self.dlg.checkSelFeatbox.setToolTip("No features selected in layer")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
                 print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
-                self.dlg.checkSelFeatbox.setToolTip("Use only selected features")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
                 # # # self.selectedfeats.setChecked(1)
             # # #else:
                 # # #pass
@@ -453,11 +453,11 @@ class ChmFromLidar ():
             if not vlayer.selectedFeatures():
                 self.dlg.checkSelFeatbox.setChecked(False)
                 self.dlg.checkSelFeatbox.setEnabled(False)
-                self.dlg.checkSelFeatbox.setToolTip("No features selected in layer")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
                 print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
-                self.dlg.checkSelFeatbox.setToolTip("Use only selected features")
+                self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
         else:
             self.dlg.comboBox.setDisabled(False)
             self.dlg.comboAoiBox.setDisabled(False)
@@ -974,7 +974,7 @@ class ChmFromLidar ():
     
     def run(self):
         print('sono in run')
-        self.dlg.textLog.setText('PROCESS STARTED...\n')
+        self.dlg.textLog.setText(self.tr('PROCESS STARTED...\n'))
         QCoreApplication.processEvents()
         #directory = 'C:/Users/user/Documents'
         """Run method that performs all the real work"""
@@ -989,10 +989,10 @@ class ChmFromLidar ():
             print('No feature selected')
 
         if self.NameClip == 'clip' and self.aoiIndex != -1:
-            self.dlg.textLog.append('WARNING: no output clip name has been selected, the default one will be used\n')
+            self.dlg.textLog.append(self.tr('WARNING: no output clip name has been selected, the default one will be used\n'))
         
         if self.chm_path_folder == '':
-            self.dlg.textLog.append('ERROR: no output folder has been selected\n')
+            self.dlg.textLog.append(self.tr('ERROR: no output folder has been selected\n'))
             return
         
         result = True
@@ -1051,7 +1051,7 @@ class ChmFromLidar ():
             #intersec_layer = QgsProcessingFeatureSourceDefinition(selectedAoi.id(), True)
             #fids = []
             chm_list_merge = []
-            self.dlg.textLog.append('SELECTING TILES...\nThe process may take some time..\n')
+            self.dlg.textLog.append(self.tr('SELECTING TILES...\nThe process may take some time..\n'))
             QCoreApplication.processEvents()
             for f in self.lyr.getFeatures():
                 # #print(f["P_DTM"])
@@ -1092,7 +1092,7 @@ class ChmFromLidar ():
                                     
                                     
             if self.lyr.selectedFeatureCount() == 0:
-                self.dlg.textLog.append('ATTENTION! No tiles have been selected. The selected AOI does not intersect the selected Campaign. Check the input parameters.')
+                self.dlg.textLog.append(self.tr('ATTENTION! No tiles have been selected. The selected AOI does not intersect the selected Campaign. Check the input parameters.'))
                 return
             
             fi_ov = []
@@ -1146,23 +1146,23 @@ class ChmFromLidar ():
                     epsg_cam = self.unique(fi_epsg)[0]
                     if self.spinResBox != 0.00 and self.tableRes > self.spinResBox:
                         print(self.spinResBox)
-                        self.dlg.textLog.append("WARNING: a resolution lower than the one of the input data has been selected\n")
+                        self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) == 0:
                     self.tableRes = max(fi_res)
                     if len(self.unique(fi_epsg)) == 1:
                         epsg_cam = self.unique(fi_epsg)[0]
                     elif len(self.unique(fi_epsg)) > 1 and self.selectedcrs == '':
-                        self.dlg.textLog.append("WARNING: different campaigns with different CRS have been selected:\n")
+                        self.dlg.textLog.append(self.tr("WARNING: different campaigns with different CRS have been selected:\n"))
                         kk = 0
                         while kk < len(self.unique(fi_epsg)):
-                            self.dlg.textLog.append("EPSG: {}\n".format(self.unique(fi_epsg)[kk]))
+                            self.dlg.textLog.append(self.tr("EPSG: {}\n".format(self.unique(fi_epsg)[kk])))
                             kk += 1
-                        self.dlg.textLog.append("Please, select the output CRS.\n")
+                        self.dlg.textLog.append(self.tr("Please, select the output CRS.\n"))
                         return
 
                     if self.spinResBox != 0.00 and self.tableRes > self.spinResBox:
                         print(self.spinResBox)
-                        self.dlg.textLog.append("WARNING: a resolution lower than the one of the input data has been selected\n")
+                        self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) > 1:
                     print('comparirà il log')
                     self.overlapLog(fi_ov, log_dict)
@@ -1191,7 +1191,7 @@ class ChmFromLidar ():
             new_lyr_tile = QgsVectorLayer(os.path.join(self.chm_path_folder, name_new_shp), name_new_lyr)
             QgsProject.instance().addMapLayers([new_lyr_tile], False)
             group_lyr.insertLayer(-1, new_lyr_tile)
-            self.dlg.textLog.append('COMPUTING CHM...\nThe process may take some time..\n')
+            self.dlg.textLog.append(self.tr('COMPUTING CHM...\nThe process may take some time..\n'))
             QCoreApplication.processEvents()
             chm_res = []
            
@@ -1320,13 +1320,13 @@ class ChmFromLidar ():
                     
                 else:
                     if dsm_exist == False and dtm_exist == True:
-                        self.dlg.textLog.append("WARNING: DSM file {} not found. The related CHM will not be computed.\n".format(sf["N_DSM"]))
+                        self.dlg.textLog.append(self.tr("WARNING: DSM file {} not found. The related CHM will not be computed.\n".format(sf["N_DSM"])))
                         QCoreApplication.processEvents()
                     elif dtm_exist == False and dsm_exist == True:
-                        self.dlg.textLog.append("WARNING: DTM file {} not found. The related CHM will not be computed.\n".format(sf["N_DTM"]))
+                        self.dlg.textLog.append(self.tr("WARNING: DTM file {} not found. The related CHM will not be computed.\n".format(sf["N_DTM"])))
                         QCoreApplication.processEvents()
                     elif dsm_exist == False and dtm_exist == False:
-                        self.dlg.textLog.append("WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.\n".format(sf["N_DSM"], sf["N_DTM"]))
+                        self.dlg.textLog.append(self.tr("WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.\n".format(sf["N_DSM"], sf["N_DTM"])))
                         QCoreApplication.processEvents()
             new_lyr_tile.commitChanges()
             
