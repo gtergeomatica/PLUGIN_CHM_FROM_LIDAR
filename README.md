@@ -11,9 +11,9 @@ This plugin is founded by
 
 https://psrveneto.it/
 
-Notes for translation:
+NOTES FOR TRANSLATION:
 
-<b>****LINUX****</b>
+<b>--- LINUX ---</b>
 <ul>
 <li> add the list of abbreviations of the languages to locales variable in the <b>Makefile</b>, e.g. LOCALES = en it nl de
 <li> add all the paths to the files that contains the string to be translated in the <b>Makefile</b>:
@@ -36,7 +36,7 @@ Whenever you add/change something in the files/UI you have to run make transup a
 
 <b>NB:</b> We have modified the update-strings.sh file in the scripts folder of the plugin directory. This file initially called the pylupdate4 (line 51) tool but we have to change it with pylupdate5 because of the installed version of Qt.
 
-<b>****WINDOWS****</b>
+<b>--- WINDOWS ---</b>
 <ul>
 <li> create a .pro file (Qt project) with the following lines:
 
