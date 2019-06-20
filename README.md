@@ -32,7 +32,7 @@ UI_FILES = plugin_base.ui
 <li> always from Qt Linguist File --> Release to create the .qm file (NB. the .qm file is called by the plugin_name.py file in the init method, pay attention to the declared name of the .qm file)
 <li> instead of creating the .qm file from Qt Linguist, it is possible to create it running <b>make transcompile</b> in terminal (linux)
 </ul>
-Whenever you add/change something in the files/UI you have to run make transup again, translate and recompile the .qm file
+Whenever you add/change something in the files .py/.ui you have to run make transup again, translate and recompile the .qm file
 
 <b>NB:</b> We have modified the update-strings.sh file in the scripts folder of the plugin directory. This file initially called the pylupdate4 (line 51) tool but we have to change it with pylupdate5 because of the installed version of Qt.
 
@@ -75,3 +75,5 @@ Running the .bat file all the specified .ts file will be created in the i18n fol
 <li> translate all the elements of the GUI and all the strings from the .py file (pay attention to new line symbols, if the original string contains a new line symbol it has to be added also to the translated string). In case of strings with {} due to .format(), the {} have to be added also to the translated string.
 <li> save the .ts file
 <li> always from Qt Linguist File --> Release to create the .qm file (NB. the .qm file is called by the plugin_name.py file in the init method, pay attention to the declared name of the .qm file)
+</ul>
+Whenever you add/change something in the files .py/.ui you have to run the .bat file again, translate and recompile the .qm file
