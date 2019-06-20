@@ -12,7 +12,8 @@ This plugin is founded by
 https://psrveneto.it/
 
 Notes for translation:
-<b>LINUX</b>
+
+<b>****LINUX****</b>
 <ul>
 <li> add the list of abbreviations of the languages to locales variable in the <b>Makefile</b>, e.g. LOCALES = en it nl de
 <li> add all the paths to the files that contains the string to be translated in the <b>Makefile</b>:
@@ -35,7 +36,7 @@ Whenever you add/change something in the files/UI you have to run make transup a
 
 <b>NB:</b> We have modified the update-strings.sh file in the scripts folder of the plugin directory. This file initially called the pylupdate4 (line 51) tool but we have to change it with pylupdate5 because of the installed version of Qt.
 
-<b>WINDOWS</b>
+<b>****WINDOWS****</b>
 <ul>
 <li> create a .pro file (Qt project) with the following lines:
 
@@ -52,7 +53,7 @@ TRANSLATIONS = i18n/ChmFromLidar_it.ts\\<br>
 
 the SOURCES variable includes all the .py file which contain strings to be translated, the FORMS variable includes all the .ui file to be translated while the TRANSLATIONS variable includes all the desired languages
 
-<b>NB</b> the .pro file must be saved in the plugin folder
+<b>NB:</b> the .pro file must be saved in the plugin folder
 
 <li> create a .bat file with the following lines:
 
@@ -68,7 +69,7 @@ the pylupdate5 tool loads the .pro file and creates the .ts file (one for each l
 
 Running the .bat file all the specified .ts file will be created in the i18n folder within the plugin directory.
 
-<b>NB</b> the .bat file must be saved in the plugin folder
+<b>NB:</b> the .bat file must be saved in the plugin folder
 
 <li> open the .ts file (e.g. ChmFromLidar_it.ts) with Qt Linguist
 <li> translate all the elements of the GUI and all the strings from the .py file (pay attention to new line symbols, if the original string contains a new line symbol it has to be added also to the translated string). In case of strings with {} due to .format(), the {} have to be added also to the translated string.
