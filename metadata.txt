@@ -10,7 +10,7 @@
 name=CHM from LIDAR
 qgisMinimumVersion=3.0
 description=This plugin creates the Canopy Height Model (CHM) from LIDAR data (DTM and DSM First Pulse).
-version=0.1
+version=0.2
 author=Roberta Fagandini (Gter srl) - Roberto Marzocchi (Gter srl)
 email=assistenzagis@gter.it
 
@@ -23,7 +23,7 @@ repository=https://github.com/gtergeomatica/chm_from_lidar
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=debug, add filter for "ente" and filter on the input file on the tile where both DTM and DSM fields are filled
 
 # Tags are comma separated with spaces allowed
 tags=CHM, LIDAR, DTM, DSM, Forestry
