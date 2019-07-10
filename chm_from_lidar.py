@@ -47,6 +47,7 @@ from osgeo import gdal
 from pathlib import Path
 from osgeo import osr
 import time
+import webbrowser
 
 class ChmFromLidar ():
     """QGIS Plugin Implementation."""
@@ -262,8 +263,10 @@ class ChmFromLidar ():
         text = self.dlg.textLog
         if selectedAoi == None:
             txt_aoi = self.tr('no data selected')
+            txt_clip = self.tr('no clip file created')
         else:
             txt_aoi = selectedAoi.name()
+            txt_clip = self.NameClip
         text.append(self.tr("Input parameters: \nAOI = {},\n").format(txt_aoi) + 
         self.tr("Selected Feature Checkbos = {},").format(self.dlg.checkSelFeatbox.isChecked()))
         if self.comboIndex == 0:
@@ -271,9 +274,11 @@ class ChmFromLidar ():
         else:
             txt_camp = selectedCampaign
         text.append(self.tr("Campaign = {},\n").format(txt_camp) +
-        self.tr("Clip Raster Name = {},").format(self.NameClip))
-        if self.spinResBox == 0.00:
+        self.tr("Clip Raster Name = {},").format(txt_clip))
+        if self.spinResBox == 0.00 and selectedAoi != None:
             text.append(self.tr("Clip Output Resolution = {},").format(self.tableRes))
+        elif self.spinResBox == 0.00 and selectedAoi == None:
+            text.append(self.tr("Clip Output Resolution = no clip file created,"))
         else:
             text.append(self.tr("Clip Output Resolution = {},").format(self.spinResBox))
         text.append(self.tr("Output Folder = {},\n").format(self.chm_path_folder) +
@@ -321,6 +326,9 @@ class ChmFromLidar ():
             
     def clearButton(self):
         self.dlg.textLog.clear()
+        
+    def openHelpButton(self):
+        webbrowser.open('https://tutorial-lidar-qgis.readthedocs.io/en/latest/')
             
     def handleCheckBox(self):
         #self.checkNegBox = state
@@ -422,8 +430,9 @@ class ChmFromLidar ():
             self.dlg.comboBox.addItems(sv for sv in self.show_values)
         
     def AoicomboBoxe(self, aidx):
-        self.aoiIndex = aidx
-        print('AOI combo')
+        # added check of number of vector layer
+        if len(QgsProject.instance().mapLayers()) > 1:
+            self.aoiIndex = aidx
         vlayer = self.dlg.comboAoiBox.currentLayer()
         print(vlayer)
         #if self.aoiIndex != -1 and self.comboIndex == 0:
@@ -735,6 +744,7 @@ class ChmFromLidar ():
             self.dlg.exportChmButton.clicked.connect(self.exportChmButton)
             self.dlg.crsButton.clicked.connect(self.crsButton)
             self.dlg.clearButton.clicked.connect(self.clearButton)
+            self.dlg.helpButton.clicked.connect(self.openHelpButton)
             self.dlg.checkNegValBox.stateChanged.connect(self.handleCheckBox)
             self.dlg.spinMaxValBox.valueChanged.connect(self.handleSpinBox)
             self.dlg.comboEnteBox.currentIndexChanged.connect(self.enteBox)
@@ -769,7 +779,7 @@ class ChmFromLidar ():
         print(self.dlg.comboBox.currentIndex()) #--> restituisce l'indice della riga selezionata
         
         self.dlg.comboAoiBox.clear()
-        self.dlg.comboAoiBox.setFilters(QgsMapLayerProxyModel.HasGeometry)
+        self.dlg.comboAoiBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
         self.dlg.comboAoiBox.setCurrentIndex(-1)
         #self.dlg.comboAoiBox.addItem('ciao')
         #print(self.dlg.comboAoiBox.currentIndex())
@@ -801,6 +811,7 @@ class ChmFromLidar ():
         self.dlg.exportChmButton.clicked.disconnect(self.exportChmButton)
         self.dlg.crsButton.clicked.disconnect(self.crsButton)
         self.dlg.clearButton.clicked.disconnect(self.clearButton)
+        self.dlg.helpButton.clicked.disconnect(self.openHelpButton)
         self.dlg.spinMaxValBox.valueChanged.disconnect(self.handleSpinBox)
         self.dlg.checkNegValBox.stateChanged.disconnect(self.handleCheckBox)
         self.dlg.comboBox.currentIndexChanged.disconnect(self.comboBoxe)
@@ -876,7 +887,7 @@ class ChmFromLidar ():
         print(sf["SR_EPSG"])
         #calc = QgsRasterCalculator('{}@1 - {}@1'.format(dsm_name[0], dtm_name[0]), '{}/{}.tif'.format(chm_out_tempdir.name, chm_calc), 'GTiff', lyr_dsm.extent(), lyr_dsm.width(), lyr_dsm.height(), entries)
         #calc.processCalculation()
-        processing.run("qgis:rastercalculator", {'EXPRESSION' : '\"{}@1\" - \"{}@1\"'.format(dsm_name[0], dtm_name[0]),
+        processing.run("qgis:rastercalculator", {'EXPRESSION' : '\"{}_dsm@1\" - \"{}_dtm@1\"'.format(dsm_name[0], dtm_name[0]),
         'LAYERS' : [lyr_dsm, lyr_dtm],
         # 'CELLSIZE' : 0,
         # 'EXTENT' : None,
@@ -1164,7 +1175,7 @@ class ChmFromLidar ():
                         print(self.spinResBox)
                         self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) > 1:
-                    print('comparir√† il log')
+                    print('comparir‡ il log')
                     self.overlapLog(fi_ov, log_dict)
                     return        
                
@@ -1247,16 +1258,18 @@ class ChmFromLidar ():
                 dtm_exist = os.path.isfile(dtm_pathfile)
                 if dsm_exist == True and dtm_exist == True:
                     ds = gdal.Open(dsm_pathfile)
-                    dsm_temp = os.path.join(chm_out_tempdir.name, '{}.tif'.format(dsm_name[0]))
+                    # added suffix to dsm name to avoid errors in case dsm and dtm file have the same name
+                    dsm_temp = os.path.join(chm_out_tempdir.name, '{}_dsm.tif'.format(dsm_name[0]))
                     ds = gdal.Translate(dsm_temp, ds, outputSRS = 'EPSG:{}'.format(sf["SR_EPSG"]))
                     ds = None
 
                     ds = gdal.Open(dtm_pathfile)
-                    dtm_temp = os.path.join(chm_out_tempdir.name, '{}.tif'.format(dtm_name[0]))
+                    # added suffix to dtm name to avoid errors in case dsm and dtm file have the same name
+                    dtm_temp = os.path.join(chm_out_tempdir.name, '{}_dtm.tif'.format(dtm_name[0]))
                     ds = gdal.Translate(dtm_temp, ds, outputSRS = 'EPSG:{}'.format(sf["SR_EPSG"]))
                     ds = None
-                    lyr_dsm = QgsRasterLayer(dsm_temp, dsm_name[0])
-                    lyr_dtm = QgsRasterLayer(dtm_temp, dtm_name[0])
+                    lyr_dsm = QgsRasterLayer(dsm_temp, '{}_dsm.tif'.format(dsm_name[0]))
+                    lyr_dtm = QgsRasterLayer(dtm_temp, '{}_dtm.tif'.format(dtm_name[0]))
                     #QgsProject.instance().addMapLayers([lyr_dsm])
                     #QgsProject.instance().addMapLayers([lyr_dtm])
                     #chm_out_dir = self.chm_path_folder
