@@ -28,7 +28,7 @@ changelog=debug, add filter for "ente" and filter on the input file on the tile 
 # Tags are comma separated with spaces allowed
 tags=CHM, LIDAR, DTM, DSM, Forestry
 
-homepage=https://github.com/gtergeomatica/chm_from_lidar/issues
+homepage=https://plugins.qgis.org/plugins/chm_from_lidar-master/
 category=Plugins
 icon=icon.png
 # experimental flag
