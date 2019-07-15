@@ -329,7 +329,7 @@ class ChmFromLidar ():
         self.dlg.textLog.clear()
         
     def openHelpButton(self):
-        webbrowser.open('https://tutorial-lidar-qgis.readthedocs.io/en/latest/')
+        webbrowser.open('https://chm-from-lidar-manuale.readthedocs.io/it/latest/')
             
     def handleCheckBox(self):
         #self.checkNegBox = state
