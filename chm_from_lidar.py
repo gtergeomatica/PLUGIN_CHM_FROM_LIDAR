@@ -48,6 +48,7 @@ from pathlib import Path
 from osgeo import osr
 import time
 import webbrowser
+import zipfile
 
 class ChmFromLidar ():
     """QGIS Plugin Implementation."""
@@ -1210,6 +1211,8 @@ class ChmFromLidar ():
             i_id = 0
             pos = 0
             for sf in self.lyr.getSelectedFeatures():
+                check_dsm_zip = 0
+                check_dtm_zip = 0
                 sf_id = sf.id()
                 pfield_id = sf.fields().indexFromName('P_CHM')
                 nfield_id = sf.fields().indexFromName('N_CHM')
@@ -1246,7 +1249,30 @@ class ChmFromLidar ():
                     # nfield_id = sf.fields().indexFromName('N_CHM')
                     # efield_id = sf.fields().indexFromName('EPSG_CHM')
                     
-                ########### il blocco di codice sotto era nell'else sopra non piÃ¹ necessario ########  
+                ########### il blocco di codice sotto era nell'else sopra non più necessario ########
+                if sf["COMPRESSIO"] == 'zip':
+                    #print('è uno zip')
+                    dsm_zip_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DSM"]
+                    dsm_zip_name = sf["N_DSM"].split(".")
+                    dsm_fzip_name = dsm_zip_name[0] + '.' + dsm_zip_name[1].replace(dsm_zip_name[1], 'zip')
+                    #print(dsm_fzip_name)
+                    dsm_zip_pathfile = os.path.join(dsm_zip_path, dsm_fzip_name)
+                    if zipfile.is_zipfile(dsm_zip_pathfile):
+                        extr_dsm = zipfile.ZipFile(dsm_zip_pathfile)
+                        if len(extr_dsm.namelist()) > 0:
+                            extr_dsm.extractall(dsm_zip_path)
+                            check_dsm_zip = 1
+                    dtm_zip_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DTM"]
+                    dtm_zip_name = sf["N_DTM"].split(".")
+                    dtm_fzip_name = dtm_zip_name[0] + '.' + dtm_zip_name[1].replace(dtm_zip_name[1], 'zip')
+                    #print(dtm_fzip_name)
+                    dtm_zip_pathfile = os.path.join(dtm_zip_path, dtm_fzip_name)
+                    if zipfile.is_zipfile(dtm_zip_pathfile):
+                        extr_dtm = zipfile.ZipFile(dtm_zip_pathfile)
+                        if len(extr_dtm.namelist()) > 0:
+                            extr_dtm.extractall(dtm_zip_path)
+                            check_dtm_zip = 1
+                        
                 dsm_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DSM"]
                 dsm_pathfile = os.path.join(dsm_path, sf["N_DSM"])
                 dtm_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DTM"]
@@ -1341,6 +1367,13 @@ class ChmFromLidar ():
                     elif dsm_exist == False and dtm_exist == False:
                         self.dlg.textLog.append(self.tr("WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.\n").format(sf["N_DSM"], sf["N_DTM"]))
                         QCoreApplication.processEvents()
+                
+                if check_dsm_zip == 1 :
+                    os.remove(dsm_pathfile)
+                    
+                if check_dtm_zip == 1:
+                    os.remove(dtm_pathfile)
+                
             new_lyr_tile.commitChanges()
             
             if self.aoiIndex != -1 and len(chm_list_merge) > 0:
