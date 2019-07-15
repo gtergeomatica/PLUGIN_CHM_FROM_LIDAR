@@ -329,7 +329,7 @@ class ChmFromLidar ():
         self.dlg.textLog.clear()
         
     def openHelpButton(self):
-        webbrowser.open('https://tutorial-lidar-qgis.readthedocs.io/en/latest/')
+        webbrowser.open('https://tutorial-lidar-qgis.readthedocs.io/it/latest/')
             
     def handleCheckBox(self):
         #self.checkNegBox = state
@@ -1249,9 +1249,9 @@ class ChmFromLidar ():
                     # nfield_id = sf.fields().indexFromName('N_CHM')
                     # efield_id = sf.fields().indexFromName('EPSG_CHM')
                     
-                ########### il blocco di codice sotto era nell'else sopra non più necessario ########
+                ########### il blocco di codice sotto era nell'else sopra non piÃ¹ necessario ########
                 if sf["COMPRESSIO"] == 'zip':
-                    #print('è uno zip')
+                    #print('Ã¨ uno zip')
                     dsm_zip_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DSM"]
                     dsm_zip_name = sf["N_DSM"].split(".")
                     dsm_fzip_name = dsm_zip_name[0] + '.' + dsm_zip_name[1].replace(dsm_zip_name[1], 'zip')
