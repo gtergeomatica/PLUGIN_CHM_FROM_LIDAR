@@ -228,7 +228,7 @@
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>Onput CHM folder</string>
+          <string>Output CHM folder</string>
          </property>
         </widget>
        </item>

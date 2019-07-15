@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it_IT">
+<TS version="2.1" language="es">
 <context>
     <name>ChmFromLidar</name>
     <message>
@@ -11,138 +11,148 @@
     <message>
         <location filename="../chm_from_lidar.py" line="225"/>
         <source>Compute CHM</source>
-        <translation>Calcolo CHM</translation>
+        <translation>Calcular CHM</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="279"/>
         <source>no data selected</source>
-        <translation>Nessun dato selezionato</translation>
+        <translation>datos no seleccionados</translation>
+    </message>
+    <message>
+        <location filename="../chm_from_lidar.py" line="272"/>
+        <source>no clip file created</source>
+        <translation>archivo clip no creado</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="276"/>
         <source>Input parameters: 
 AOI = {},
 </source>
-        <translation>Parametri di input:
-Area di interesse = {},
+        <translation>Parametros de entrada:
+AOI = {},
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="276"/>
         <source>Selected Feature Checkbos = {},</source>
-        <translation>Usa solo geometrie selezionate = {},</translation>
+        <translation>Características seleccionadas Checkbos = {},</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="282"/>
         <source>Campaign = {},
 </source>
-        <translation>Campagna = {},
+        <translation>Campaña = {},
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="282"/>
         <source>Clip Raster Name = {},</source>
-        <translation>Nome del file Clip = {},</translation>
+        <translation>Nombre Clip Raster = {}</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="289"/>
         <source>Clip Output Resolution = {},</source>
-        <translation>Risoluzione del file Clip = {},</translation>
+        <translation>Resolucion Recorte Salida = {}</translation>
+    </message>
+    <message>
+        <location filename="../chm_from_lidar.py" line="287"/>
+        <source>Clip Output Resolution = no clip file created,</source>
+        <translation>Resolucion de salida del Clip = archivo clip no creado,</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="290"/>
         <source>Output Folder = {},
 </source>
-        <translation>Cartella di output = {},
+        <translation>Carpeta de salida = {},
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="290"/>
         <source>Output Format = {},</source>
-        <translation>Formato file di output = {},</translation>
+        <translation>Formato de salida = {},</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="293"/>
         <source>Output CRS = EPSG: {},</source>
-        <translation>Sistema di riferimento di output = EPSG: {},</translation>
+        <translation>CRS de Salida = EPSG:{},</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="295"/>
         <source>Output CRS = {},</source>
-        <translation>Sistema di riferimento di output = {},</translation>
+        <translation>CRS de salida = {},</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="296"/>
         <source>Remove values &lt; 0 = {},</source>
-        <translation>Rimuovi valori &lt; 0 = {},</translation>
+        <translation>Eliminar valores &lt; 0 = {},</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="298"/>
         <source>no threshold selected</source>
-        <translation>Nessuna soglia selezionata</translation>
+        <translation>Límite no seleccionado</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="301"/>
         <source>Max value threshold = {}
 </source>
-        <translation>Soglia dei valori massimi = {}
+        <translation>Umbral de valor máximo= {}
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="302"/>
         <source>*** PROCESS FINISHED! ***</source>
-        <translation>*** PROCESSO TERMINATO! ***</translation>
+        <translation>*** PROCESO TERMINADO! ***</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="306"/>
         <source>WARNING!! the following campaigns have been selected:
 </source>
-        <translation>ATTENZIONE!! Le seguenti campagne sono state selezionate:
+        <translation>ADVERTENCIA!! las siguientes campañas han sido seleccionadas:
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="312"/>
         <source>It is possible to visualize the current selection on the map (zoom to selection tool)
 </source>
-        <translation>E&apos; possibile visualizzare la selezione corrente sulla mappa (strumento zoom alla selezione)
+        <translation>Es posible visualizar la seleccion actual en el mapa (herramienta de seleccion de zoom)
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="313"/>
         <source>Please, choose the desired CAMPAIGN in the campaign Combo Box
 </source>
-        <translation>Per favore, scegliere una CAMPAGNA nel menù a tendina relativo alla campagna
+        <translation>Por favor, escoja la campaña deseada en la campaña Combo Box
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="473"/>
         <source>No features selected in layer</source>
-        <translation>Nessuna geometria selezionate nel layer</translation>
+        <translation>Caracteristicas No seleccionadas en la capa</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="477"/>
         <source>Use only selected features</source>
-        <translation>Utilizza solo le geometrie selezionate</translation>
+        <translation>Usar solo las caracteristicas seleccionadas</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1001"/>
         <source>PROCESS STARTED...
 </source>
-        <translation>PROCESSO INIZIATO...
+        <translation>PROCESO COMENZADO...
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1016"/>
         <source>WARNING: no output clip name has been selected, the default one will be used
 </source>
-        <translation>ATTENZIONE: nessun nome per il file Clip è stato selezionato, verrà utilizzato quello di default
+        <translation>ADVERTENCIA: no se ha seleccionado el nombre del clip de salida, se usara el nombre por defecto
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1019"/>
         <source>ERROR: no output folder has been selected
 </source>
-        <translation>ERRORE: non è stata selezionata una cartella di output
+        <translation>ERROR: no se ha seleccionado una carpeta de salida
 </translation>
     </message>
     <message>
@@ -150,41 +160,41 @@ Area di interesse = {},
         <source>SELECTING TILES...
 The process may take some time..
 </source>
-        <translation>SELEZIONE DELLE TILES...
-Il processo può richiedere un po&apos; di tempo..
+        <translation>SELECCIONANDO TESELAS...
+El proceso puede llevar algo de tiempo..
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1119"/>
         <source>ATTENTION! No tiles have been selected. The selected AOI does not intersect the selected Campaign. Check the input parameters.</source>
-        <translation>ATTENZIONE! Nessuna tile è stata selezionata. L&apos;area di interesse selezionata non interseca la Campagna selezionata. Verifica i parametri in input.</translation>
+        <translation>ATENCIÓN! No se han seleccionado teselas. La AOI seleccionada no intersecta con la campaña seleccionada. Compruebe los parametros de entrada.</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1189"/>
         <source>WARNING: a resolution lower than the one of the input data has been selected
 </source>
-        <translation>ATTENZIONE: è stata selezionata una risoluzione inferiore a quella dei dati in input
+        <translation>ADVERTENCIA: se ha seleccionado una resolucion inferior a la de los datos de entrada
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1179"/>
         <source>WARNING: different campaigns with different CRS have been selected:
 </source>
-        <translation>ATTENZIONE: sono state selezionate diverse campagne con diversi sistemi di riferimento:
+        <translation>ADVERTENCIA: se han seleccionado diferentes campañas con diferentes CRS:
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1182"/>
         <source>EPSG: {}
 </source>
-        <translation>EPSG: {}
+        <translation>EPSG:{}
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1184"/>
         <source>Please, select the output CRS.
 </source>
-        <translation>Per favore, selezionare un sistema di riferimento di output.
+        <translation>Por favor, seleccione el Sistema de Referencia de Coordenadas (CRS) de salida.
 </translation>
     </message>
     <message>
@@ -192,40 +202,30 @@ Il processo può richiedere un po&apos; di tempo..
         <source>COMPUTING CHM...
 The process may take some time..
 </source>
-        <translation>CALCOLO DEL CHM...
-Il processo può richiedere un po&apos; di tempo..
+        <translation>Calculando CHM...
+El proceso puede llevar algo de tiempo..
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1374"/>
         <source>WARNING: DSM file {} not found. The related CHM will not be computed.
 </source>
-        <translation>ATTENZIONE: il file DSM {} non è stato trovato. Il CHM corrispondente non verrà calcolato.
+        <translation>ADVERTENCIA:archivo DSM {} no encontrado. El CHM relacionado no será computado.
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1377"/>
         <source>WARNING: DTM file {} not found. The related CHM will not be computed.
 </source>
-        <translation>ATTENZIONE: il file DTM {} non è stato trovato. Il CHM corrispondente non verrà calcolato.
+        <translation>ADVERTENCIA: archivo DTM no encontrado. El CHM relacionado no será computado.
 </translation>
     </message>
     <message>
         <location filename="../chm_from_lidar.py" line="1380"/>
         <source>WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.
 </source>
-        <translation>ATTENZIONE: il file DSM {} e il file DTM {} non sono stati trovati. Il CHM corrispondente non verrà calcolato.
+        <translation>ADVERTENCIA: archivo DSM {} y archivo DTM {} no encontrados. El CHM relacionado no será computado.
 </translation>
-    </message>
-    <message>
-        <location filename="../chm_from_lidar.py" line="272"/>
-        <source>no clip file created</source>
-        <translation>nessun file clip creato</translation>
-    </message>
-    <message>
-        <location filename="../chm_from_lidar.py" line="287"/>
-        <source>Clip Output Resolution = no clip file created,</source>
-        <translation>Risoluzione del file Clip = nessun file clip creato,</translation>
     </message>
 </context>
 <context>
@@ -238,37 +238,37 @@ Il processo può richiedere un po&apos; di tempo..
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="33"/>
         <source>Select an AOI</source>
-        <translation>Seleziona area di intresse</translation>
+        <translation>Seleccione una Área de interés</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="83"/>
         <source>Using selected features</source>
-        <translation>Usa solo le geometrie selezionate</translation>
+        <translation>Usando las características seleccionadas</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="95"/>
         <source>Select the autority</source>
-        <translation>Seleziona Ente</translation>
+        <translation>Seleccione la autoridad</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="144"/>
         <source>Select a campaign</source>
-        <translation>Seleziona campagna</translation>
+        <translation>Seleccione una campaña</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="196"/>
         <source>Clip file name</source>
-        <translation>Nome del file Clip</translation>
+        <translation>Nombre del Clip file</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="210"/>
         <source>Choose resolution (m)</source>
-        <translation>Scegli la risoluzione (m)</translation>
+        <translation>Elija la resolucion (m)</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="231"/>
         <source>Onput CHM folder</source>
-        <translation type="obsolete">Cartella di output</translation>
+        <translation type="obsolete">Carpeta de salida CHM</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="260"/>
@@ -283,32 +283,32 @@ Il processo può richiedere un po&apos; di tempo..
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="316"/>
         <source>remove values &lt; 0</source>
-        <translation>rimuovi valori &lt; 0</translation>
+        <translation>Eliminar valores &lt; 0</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="342"/>
         <source>remove values &gt;</source>
-        <translation>rimuovi valori &gt;</translation>
+        <translation>Eliminar valores &gt;</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="363"/>
         <source>Clear Log</source>
-        <translation>Pulisci il Log</translation>
-    </message>
-    <message>
-        <location filename="../chm_from_lidar_dialog_base.ui" line="390"/>
-        <source>Ok</source>
-        <translation>OK</translation>
+        <translation>Borrar Registro</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="370"/>
         <source>Help</source>
-        <translation>Guida</translation>
+        <translation>Ayuda</translation>
+    </message>
+    <message>
+        <location filename="../chm_from_lidar_dialog_base.ui" line="390"/>
+        <source>Ok</source>
+        <translation>Ok</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="231"/>
         <source>Output CHM folder</source>
-        <translation>Cartella di output</translation>
+        <translation>Carpeta de salida CHM</translation>
     </message>
 </context>
 </TS>
