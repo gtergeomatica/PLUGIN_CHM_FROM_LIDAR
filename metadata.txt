@@ -23,7 +23,29 @@ repository=https://github.com/gtergeomatica/chm_from_lidar
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=debug, add filter for "ente" and filter on the input file on the tile where both DTM and DSM fields are filled
+changelog=
+    0.5
+        * fixed bug to solve installation error
+        * update metadata
+    0.4
+        * added managing of zip file
+        * added spanish translation of the GUI
+        * corrected typo in the english GUI
+        * changed link to help manual
+        * modified file tile_dsm_dtm.gpkg
+        * update metadata
+    0.3
+        * Add help
+        * Debug on AOI combobox index layer
+        * filter on AOI combobox
+        * debug on dtm and dsm name in case of same file names
+        * log messages refinement
+    0.2
+        * debug,
+        * add filter for "ente" and filter on the input file on the tile where both DTM and DSM fields are filled
+        * added italian translation of the GUI
+    0.1
+        * First public release 
 
 # Tags are comma separated with spaces allowed
 tags=CHM, LIDAR, DTM, DSM, Forestry
