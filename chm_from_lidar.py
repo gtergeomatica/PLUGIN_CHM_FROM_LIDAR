@@ -447,7 +447,7 @@ class ChmFromLidar ():
                 self.dlg.checkSelFeatbox.setEnabled(False)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
-                print('ciao')
+                #print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
                 # # # self.selectedfeats.setChecked(1)
@@ -465,7 +465,7 @@ class ChmFromLidar ():
                 self.dlg.checkSelFeatbox.setEnabled(False)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
-                print('ciao')
+                #print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
         else:
@@ -678,7 +678,7 @@ class ChmFromLidar ():
         elif f1 != 'GeoTIFF':
             print('stai salvando in un altro formato')
             if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
-                print('stai salvando in un altro formato con 4326')
+                #print('stai salvando in un altro formato con 4326')
                 processing.run("gdal:translate", {'INPUT': clip_temppathfile,
                     'TARGET_CRS': clip_temppathfile,
                     'NODATA': None,
@@ -937,7 +937,7 @@ class ChmFromLidar ():
         elif f1 != 'GeoTIFF':
             print('stai salvando in un altro formato')
             if (self.selectedcrs == '' or self.code == '' or self.code == sf["SR_EPSG"]):
-                print('stai salvando in un altro formato con 4326')
+                #print('stai salvando in un altro formato con 4326')
             
                 processing.run("gdal:translate", {'INPUT': chm_temppathfile,
                     'TARGET_CRS': chm_temppathfile,
@@ -1176,7 +1176,7 @@ class ChmFromLidar ():
                         print(self.spinResBox)
                         self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) > 1:
-                    print('comparir‡ il log')
+                    #print('comparir√† il log')
                     self.overlapLog(fi_ov, log_dict)
                     return        
                
