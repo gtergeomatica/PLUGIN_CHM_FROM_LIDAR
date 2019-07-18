@@ -238,7 +238,7 @@ Il processo può richiedere un po&apos; di tempo..
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="33"/>
         <source>Select an AOI</source>
-        <translation>Seleziona area di intresse</translation>
+        <translation type="unfinished">Seleziona area di interesse</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="83"/>
