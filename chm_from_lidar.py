@@ -438,7 +438,7 @@ class ChmFromLidar ():
         print(vlayer)
         #if self.aoiIndex != -1 and self.comboIndex == 0:
         if self.aoiIndex != -1 and self.comboIndex != 0:
-            print('aoi è cambiato')
+            #print('aoi è cambiato')
             #print(self.aoiIndex)
             self.dlg.clipName.setEnabled(True)
             #print(vlayer)
@@ -454,7 +454,7 @@ class ChmFromLidar ():
             # # #else:
                 # # #pass
         elif self.aoiIndex != -1 and self.comboIndex == 0:
-            print('aoi è cambiato')
+            #print('aoi è cambiato')
             #print(self.aoiIndex)
             #self.dlg.comboBox.setDisabled(True)
             #print(vlayer)
@@ -764,7 +764,7 @@ class ChmFromLidar ():
     
     def prepRun(self):
         if QgsProject.instance().mapLayersByName('tile_dsm_dtm'):
-            print('già esiste')
+            #print('già esiste')
             self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
         else:
             path = os.path.join(self.plugin_dir, 'tile_dsm_dtm.gpkg')
@@ -1062,15 +1062,24 @@ class ChmFromLidar ():
             #code = epsg_code[1]
             #intersec_layer = QgsProcessingFeatureSourceDefinition(selectedAoi.id(), True)
             #fids = []
+            warning_string = ''
             chm_list_merge = []
             self.dlg.textLog.append(self.tr('SELECTING TILES...\nThe process may take some time..\n'))
             QCoreApplication.processEvents()
             for f in self.lyr.getFeatures():
                 # #print(f["P_DTM"])
-                if f["P_DTM"] == NULL :
-                    print('no DTM found')
-                elif f["P_DSM"] == NULL :
-                    print('no DSM found')
+                if f["P_DTM"] == NULL and f["P_DSM"] != NULL and f["P_CAMPAGNA"] != NULL:
+                    if selectedCampaign in f["P_CAMPAGNA"]:
+                        #print('no DTM found')
+                        warning_string = self.tr('{} No DTM found for tile with fid {}\n').format(warning_string, f["fid"])
+                elif f["P_DSM"] == NULL and f["P_DTM"] != NULL and f["P_CAMPAGNA"] != NULL:
+                    if selectedCampaign in f["P_CAMPAGNA"]:
+                        #print('no DSM found')
+                        warning_string = self.tr('{} No DSM found for tile with fid {}\n').format(warning_string, f["fid"])
+                elif f["P_DSM"] == NULL and f["P_DTM"] == NULL and f["P_CAMPAGNA"] != NULL:
+                    if selectedCampaign in f["P_CAMPAGNA"]:
+                        #print('no DSM and DTM found')
+                        warning_string = self.tr('{} No DSM and DTM found for tile with fid {}\n').format(warning_string, f["fid"])
                 elif f["P_CAMPAGNA"] == NULL:
                     print('no CAMPAGNA found')
                 else:
@@ -1101,10 +1110,16 @@ class ChmFromLidar ():
                             for fAoi in selectedAoi.getFeatures():
                                 if f.geometry().intersects(fAoi.geometry()):
                                     self.lyr.select(f.id())
-                                    
-                                    
+                                   
+            self.dlg.textLog.append(self.tr('{}').format(warning_string))
+            
             if self.lyr.selectedFeatureCount() == 0:
-                self.dlg.textLog.append(self.tr('ATTENTION! No tiles have been selected. The selected AOI does not intersect the selected Campaign. Check the input parameters.'))
+                self.dlg.textLog.append(self.tr('ATTENTION! No tiles have been selected.\n' +
+                'It is probably due to one of the following reasons:\n' +
+                '1 - the selected AOI does not intersect the selected Campaign;\n' +
+                '2 - P_DTM and/or P_DSM fields could be empty;\n' +
+                '3 - P_CAMPAGNA field could be empty;\n' +
+                'Check the input parameters.'))
                 return
             
             fi_ov = []
