@@ -92,7 +92,7 @@
        <item>
         <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Select the autority</string>
+          <string>Select the authority</string>
          </property>
         </widget>
        </item>

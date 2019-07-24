@@ -160,35 +160,35 @@ Il processo può richiedere un po&apos; di tempo..
         <translation type="obsolete">ATTENZIONE! Nessuna tile è stata selezionata. L&apos;area di interesse selezionata non interseca la Campagna selezionata. Verifica i parametri in input.</translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1208"/>
+        <location filename="../chm_from_lidar.py" line="1205"/>
         <source>WARNING: a resolution lower than the one of the input data has been selected
 </source>
         <translation>ATTENZIONE: è stata selezionata una risoluzione inferiore a quella dei dati in input
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1198"/>
+        <location filename="../chm_from_lidar.py" line="1195"/>
         <source>WARNING: different campaigns with different CRS have been selected:
 </source>
         <translation>ATTENZIONE: sono state selezionate diverse campagne con diversi sistemi di riferimento:
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1201"/>
+        <location filename="../chm_from_lidar.py" line="1198"/>
         <source>EPSG: {}
 </source>
         <translation>EPSG: {}
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1203"/>
+        <location filename="../chm_from_lidar.py" line="1200"/>
         <source>Please, select the output CRS.
 </source>
         <translation>Per favore, selezionare un sistema di riferimento di output.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1237"/>
+        <location filename="../chm_from_lidar.py" line="1234"/>
         <source>COMPUTING CHM...
 The process may take some time..
 </source>
@@ -197,21 +197,21 @@ Il processo può richiedere un po&apos; di tempo..
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1393"/>
+        <location filename="../chm_from_lidar.py" line="1390"/>
         <source>WARNING: DSM file {} not found. The related CHM will not be computed.
 </source>
         <translation>ATTENZIONE: il file DSM {} non è stato trovato. Il CHM corrispondente non verrà calcolato.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1396"/>
+        <location filename="../chm_from_lidar.py" line="1393"/>
         <source>WARNING: DTM file {} not found. The related CHM will not be computed.
 </source>
         <translation>ATTENZIONE: il file DTM {} non è stato trovato. Il CHM corrispondente non verrà calcolato.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1399"/>
+        <location filename="../chm_from_lidar.py" line="1396"/>
         <source>WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.
 </source>
         <translation>ATTENZIONE: il file DSM {} e il file DTM {} non sono stati trovati. Il CHM corrispondente non verrà calcolato.
@@ -228,12 +228,12 @@ Il processo può richiedere un po&apos; di tempo..
         <translation>Risoluzione del file Clip = nessun file clip creato,</translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1130"/>
+        <location filename="../chm_from_lidar.py" line="1127"/>
         <source>{}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1133"/>
+        <location filename="../chm_from_lidar.py" line="1130"/>
         <source>ATTENTION! No tiles have been selected.
 It is probably due to one of the following reasons:
 1 - the selected AOI does not intersect the selected Campaign;
@@ -279,7 +279,7 @@ Verificare i parametri di input.</translation>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="33"/>
         <source>Select an AOI</source>
-        <translation>Seleziona area di intresse</translation>
+        <translation>Seleziona area di interesse</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="83"/>
@@ -289,7 +289,7 @@ Verificare i parametri di input.</translation>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="95"/>
         <source>Select the autority</source>
-        <translation>Seleziona Ente</translation>
+        <translation type="obsolete">Seleziona Ente</translation>
     </message>
     <message>
         <location filename="../chm_from_lidar_dialog_base.ui" line="144"/>
@@ -350,6 +350,11 @@ Verificare i parametri di input.</translation>
         <location filename="../chm_from_lidar_dialog_base.ui" line="231"/>
         <source>Output CHM folder</source>
         <translation>Cartella di output</translation>
+    </message>
+    <message>
+        <location filename="../chm_from_lidar_dialog_base.ui" line="95"/>
+        <source>Select the authority</source>
+        <translation>Seleziona Ente</translation>
     </message>
 </context>
 </TS>
