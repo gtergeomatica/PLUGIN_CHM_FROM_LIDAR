@@ -329,7 +329,12 @@ class ChmFromLidar ():
         self.dlg.textLog.clear()
         
     def openHelpButton(self):
-        webbrowser.open('https://chm-from-lidar-manuale.readthedocs.io/it/latest/')
+        if QgsSettings().value('locale/userLocale') == 'it':
+            webbrowser.open('https://chm-from-lidar-manuale.readthedocs.io/it/latest/')
+        elif QgsSettings().value('locale/userLocale') == 'es':
+            webbrowser.open('https://chm-from-lidar-manuale.readthedocs.io/es/latest/')
+        else:
+            webbrowser.open('https://chm-from-lidar-manuale.readthedocs.io/en/latest/')
             
     def handleCheckBox(self):
         #self.checkNegBox = state
