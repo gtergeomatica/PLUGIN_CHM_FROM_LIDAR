@@ -125,38 +125,38 @@ AOI = {},
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="473"/>
+        <location filename="../chm_from_lidar.py" line="478"/>
         <source>No features selected in layer</source>
         <translation>Caracteristicas No seleccionadas en la capa</translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="477"/>
+        <location filename="../chm_from_lidar.py" line="482"/>
         <source>Use only selected features</source>
         <translation>Usar solo las caracteristicas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1001"/>
+        <location filename="../chm_from_lidar.py" line="1006"/>
         <source>PROCESS STARTED...
 </source>
         <translation>PROCESO COMENZADO...
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1016"/>
+        <location filename="../chm_from_lidar.py" line="1021"/>
         <source>WARNING: no output clip name has been selected, the default one will be used
 </source>
         <translation>ADVERTENCIA: no se ha seleccionado el nombre del clip de salida, se usara el nombre por defecto
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1019"/>
+        <location filename="../chm_from_lidar.py" line="1024"/>
         <source>ERROR: no output folder has been selected
 </source>
         <translation>ERROR: no se ha seleccionado una carpeta de salida
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1080"/>
+        <location filename="../chm_from_lidar.py" line="1085"/>
         <source>SELECTING TILES...
 The process may take some time..
 </source>
@@ -170,35 +170,35 @@ El proceso puede llevar algo de tiempo..
         <translation type="obsolete">ATENCIÓN! No se han seleccionado teselas. La AOI seleccionada no intersecta con la campaña seleccionada. Compruebe los parametros de entrada.</translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1205"/>
+        <location filename="../chm_from_lidar.py" line="1214"/>
         <source>WARNING: a resolution lower than the one of the input data has been selected
 </source>
         <translation>ADVERTENCIA: se ha seleccionado una resolucion inferior a la de los datos de entrada
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1195"/>
+        <location filename="../chm_from_lidar.py" line="1204"/>
         <source>WARNING: different campaigns with different CRS have been selected:
 </source>
         <translation>ADVERTENCIA: se han seleccionado diferentes campañas con diferentes CRS:
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1198"/>
+        <location filename="../chm_from_lidar.py" line="1207"/>
         <source>EPSG: {}
 </source>
         <translation>EPSG:{}
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1200"/>
+        <location filename="../chm_from_lidar.py" line="1209"/>
         <source>Please, select the output CRS.
 </source>
         <translation>Por favor, seleccione el Sistema de Referencia de Coordenadas (CRS) de salida.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1234"/>
+        <location filename="../chm_from_lidar.py" line="1243"/>
         <source>COMPUTING CHM...
 The process may take some time..
 </source>
@@ -207,54 +207,54 @@ El proceso puede llevar algo de tiempo..
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1390"/>
+        <location filename="../chm_from_lidar.py" line="1402"/>
         <source>WARNING: DSM file {} not found. The related CHM will not be computed.
 </source>
         <translation>ADVERTENCIA:archivo DSM {} no encontrado. El CHM relacionado no será computado.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1393"/>
+        <location filename="../chm_from_lidar.py" line="1405"/>
         <source>WARNING: DTM file {} not found. The related CHM will not be computed.
 </source>
         <translation>ADVERTENCIA: archivo DTM no encontrado. El CHM relacionado no será computado.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1396"/>
+        <location filename="../chm_from_lidar.py" line="1408"/>
         <source>WARNING: DSM file {} and DTM file {} not found. The related CHM will not be computed.
 </source>
         <translation>ADVERTENCIA: archivo DSM {} y archivo DTM {} no encontrados. El CHM relacionado no será computado.
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1087"/>
+        <location filename="../chm_from_lidar.py" line="1092"/>
         <source>{} No DTM found for tile with fid {}
 </source>
         <translation>{} No DTM encontrado para el tile con fid {}
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1091"/>
+        <location filename="../chm_from_lidar.py" line="1096"/>
         <source>{} No DSM found for tile with fid {}
 </source>
         <translation>{} No DSM encontrado para el tile con fid {}
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1095"/>
+        <location filename="../chm_from_lidar.py" line="1100"/>
         <source>{} No DSM and DTM found for tile with fid {}
 </source>
         <translation>{} No DTM y DSM encontrados para el tile con fid {}
 </translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1127"/>
+        <location filename="../chm_from_lidar.py" line="1135"/>
         <source>{}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../chm_from_lidar.py" line="1130"/>
+        <location filename="../chm_from_lidar.py" line="1139"/>
         <source>ATTENTION! No tiles have been selected.
 It is probably due to one of the following reasons:
 1 - the selected AOI does not intersect the selected Campaign;
@@ -267,6 +267,20 @@ Probablemente sea debido a una de las siguientes razones:
 2 - los campos P_DTM y/o P_DSM pueden estar vacios;
 3 - el campo P_CAMPAGNA puede estar vacio;
 Compruebe los parametros de entrada.</translation>
+    </message>
+    <message>
+        <location filename="../chm_from_lidar.py" line="1136"/>
+        <source>{} tiles have been selected.
+</source>
+        <translation>{} tiles han sido seleccionadas.
+</translation>
+    </message>
+    <message>
+        <location filename="../chm_from_lidar.py" line="1253"/>
+        <source>Processing tile n. {} of {}
+</source>
+        <translation>Elaboracion del tile n. {} de {}
+</translation>
     </message>
 </context>
 <context>

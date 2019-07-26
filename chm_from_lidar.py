@@ -1117,6 +1117,7 @@ class ChmFromLidar ():
                                     self.lyr.select(f.id())
                                    
             self.dlg.textLog.append(self.tr('{}').format(warning_string))
+            self.dlg.textLog.append(self.tr('{} tiles have been selected.\n').format(self.lyr.selectedFeatureCount()))
             
             if self.lyr.selectedFeatureCount() == 0:
                 self.dlg.textLog.append(self.tr('ATTENTION! No tiles have been selected.\n' +
@@ -1230,7 +1231,10 @@ class ChmFromLidar ():
             new_lyr_tile.startEditing()
             i_id = 0
             pos = 0
+            count_tile = 0
             for sf in self.lyr.getSelectedFeatures():
+                count_tile += 1
+                self.dlg.textLog.append(self.tr('Processing tile n. {} of {}\n').format(count_tile, self.lyr.selectedFeatureCount()))
                 check_dsm_zip = 0
                 check_dtm_zip = 0
                 sf_id = sf.id()
