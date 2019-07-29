@@ -389,7 +389,7 @@ class ChmFromLidar ():
                 print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
-            # print('combo è cambiato')
+            # print('combo Ã¨ cambiato')
             # self.dlg.comboAoiBox.setDisabled(True)
         elif self.aoiIndex != -1 and self.comboIndex == 0:
             #print(self.aoiIndex)
@@ -455,7 +455,7 @@ class ChmFromLidar ():
         print(vlayer)
         #if self.aoiIndex != -1 and self.comboIndex == 0:
         if self.aoiIndex != -1 and self.comboIndex != 0:
-            #print('aoi è cambiato')
+            #print('aoi Ã¨ cambiato')
             #print(self.aoiIndex)
             self.dlg.clipName.setEnabled(True)
             #print(vlayer)
@@ -471,7 +471,7 @@ class ChmFromLidar ():
             # # #else:
                 # # #pass
         elif self.aoiIndex != -1 and self.comboIndex == 0:
-            #print('aoi è cambiato')
+            #print('aoi Ã¨ cambiato')
             #print(self.aoiIndex)
             #self.dlg.comboBox.setDisabled(True)
             #print(vlayer)
@@ -783,7 +783,7 @@ class ChmFromLidar ():
     
     def prepRun(self):
         if QgsProject.instance().mapLayersByName('tile_dsm_dtm'):
-            #print('già esiste')
+            #print('giÃ  esiste')
             self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
         else:
             path = os.path.join(self.plugin_dir, 'tile_dsm_dtm.gpkg')
@@ -1088,7 +1088,7 @@ class ChmFromLidar ():
             self.dlg.textLog.append(self.tr('SELECTING TILES...\nThe process may take some time..\n'))
             QCoreApplication.processEvents()
             for f in self.lyr.getFeatures():
-                # #print(f["P_DTM"])
+                #print(f["P_DTM"])
                 if f["P_DTM"] == NULL and f["P_DSM"] != NULL and f["P_CAMPAGNA"] != NULL:
                     if selectedCampaign in f["P_CAMPAGNA"]:
                         #print('no DTM found')
@@ -1213,7 +1213,7 @@ class ChmFromLidar ():
                         print(self.spinResBox)
                         self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) > 1:
-                    #print('comparirà il log')
+                    #print('comparirÃ  il log')
                     self.overlapLog(fi_ov, log_dict)
                     return        
                
@@ -1325,7 +1325,7 @@ class ChmFromLidar ():
                 else:
                     self.input_crs = sf["SR_EPSG"]
                     if sf["COMPRESSIO"] == 'zip':
-                        #print('� uno zip')
+                        #print('è uno zip')
                         dsm_zip_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DSM"]
                         dsm_zip_name = sf["N_DSM"].split(".")
                         dsm_fzip_name = dsm_zip_name[0] + '.' + dsm_zip_name[1].replace(dsm_zip_name[1], 'zip')
