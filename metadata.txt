@@ -27,6 +27,8 @@ changelog=
     0.7
         * modified the file tile_dsm_dtm according to the requests of Regione Veneto
         * corrected typo in the italian GUI
+        * added checkbox to use already computed CHM files for computation
+        * added code to use already computed CHM files for computation if the related checkbox is unchecked 
         * added iteration count messages in log
         * added italian and spanish translation for new log messages
         * added italian and spanish translation of the manual
