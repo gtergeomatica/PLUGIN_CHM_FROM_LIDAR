@@ -1098,7 +1098,10 @@ class ChmFromLidar ():
                         #print('no DSM and DTM found')
                         warning_string = self.tr('{} No DSM and DTM found for tile with fid {}\n').format(warning_string, f["fid"])
                 elif f["P_CAMPAGNA"] == NULL:
+                    #if selectedCampaign in f["P_CAMPAGNA"]:
                     print('no CAMPAGNA found')
+                    #warning_string = '{} No CAMPAIGN found for tile with fid {}\n'.format(warning_string, f["fid"])
+                    
                 else:
                     if self.comboIndex != 0:
                         if selectedCampaign in f["P_CAMPAGNA"] and self.aoiIndex == -1:
@@ -1259,60 +1262,68 @@ class ChmFromLidar ():
                     if os.path.isfile(inchm_pathfile):
                         self.dlg.textLog.append(self.tr("CHM file {} has been found and it will be used for the next computation steps.\n").format(sf["N_CHM"]))
                         QCoreApplication.processEvents()
-                        self.input_crs = sf["EPSG_CHM"]
-                        inchm_name = sf["N_CHM"].split(".")
-                        chm_fname = inchm_name[0]
-                        chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
-                        chm_calc = '{}_calc'.format(inchm_name[0])
-                        self.chmFinalName = chm_calc
-                        inchm_pathfile_copy = os.path.join(chm_out_tempdir.name, chm_calc)
-                        #copyfile(inchm_pathfile, inchm_pathfile_copy)
-                        processing.run("gdal:translate", {'INPUT': inchm_pathfile,
-                        'TARGET_CRS': self.input_crs,
-                        'NODATA': None,
-                        'COPY_SUBDATASETS': False,
-                        'DATA_TYPE': 0,
-                        'OUTPUT': '{}.tif'.format(inchm_pathfile_copy)})
-                        chm_calc2 = '{}_calc2'.format(chm_fname)
-                        chm_calc3 = '{}_calc3'.format(chm_fname)
-                        self.enableCalc2[self.checkNegBox](chm_calc, chm_out_tempdir, chm_calc2)
-                        if self.checkNegBox == True:
-                            self.enableCalc3[self.spinMaxBox > 0](chm_calc2, chm_out_tempdir, chm_calc3)
-                        else:
-                            self.enableCalc3[self.spinMaxBox > 0](chm_calc, chm_out_tempdir, chm_calc3)
+                        try:
+                            chm_file_epsg = gdal.Info(inchm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG","', 1)[-1].split('"')[0]
+                            if chm_file_epsg == sf["EPSG_CHM"] or chm_file_epsg == '':
+                                self.input_crs = sf["EPSG_CHM"]
+                                inchm_name = sf["N_CHM"].split(".")
+                                chm_fname = inchm_name[0]
+                                chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
+                                chm_calc = '{}_calc'.format(inchm_name[0])
+                                self.chmFinalName = chm_calc
+                                inchm_pathfile_copy = os.path.join(chm_out_tempdir.name, chm_calc)                        
+                                processing.run("gdal:translate", {'INPUT': inchm_pathfile,
+                                'TARGET_CRS': 'EPSG:{}'.format(self.input_crs),
+                                'NODATA': None,
+                                'COPY_SUBDATASETS': False,
+                                'DATA_TYPE': 0,
+                                'OUTPUT': '{}.tif'.format(inchm_pathfile_copy)})
+                                chm_calc2 = '{}_calc2'.format(chm_fname)
+                                chm_calc3 = '{}_calc3'.format(chm_fname)
+                                self.enableCalc2[self.checkNegBox](chm_calc, chm_out_tempdir, chm_calc2)
+                                if self.checkNegBox == True:
+                                    self.enableCalc3[self.spinMaxBox > 0](chm_calc2, chm_out_tempdir, chm_calc3)
+                                else:
+                                    self.enableCalc3[self.spinMaxBox > 0](chm_calc, chm_out_tempdir, chm_calc3)
+                                    
+                                self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2, chm_fname)
+                                lyr_chm = QgsRasterLayer(chm_pathfile, chm_fname)
+                                chm_crs = lyr_chm.crs().authid()
+                                code_chm = chm_crs.split(':')
+                                
+                                chm_res_pathfile = self.resample(fi_res, self.chmFinalName, chm_out_tempdir, code_chm[1])
+                                
+
+                                
+                                for xml in os.listdir(chm_out_dir):
+                                    #if xml.endswith('{}{}.aux.xml'.format(chm_fname, f2)):
+                                    if xml.endswith('.xml'):
+                                        xmlpath = os.path.join(chm_out_dir, xml)
+                                    # ##text_files = [f for f in os.listdir(path) if f.endswith('.aux.xml')]
+                                    # ##print(text_files)
+                                        # print(xmlpath)
+                                        os.remove(xmlpath)
+                                
+                                new_lyr_tile.changeAttributeValue(i_id, efield_id, code_chm[1])
+                                new_lyr_tile.changeAttributeValue(i_id, pfield_id, chm_out_dir)
+                                new_lyr_tile.changeAttributeValue(i_id, nfield_id, "{}{}".format(chm_fname, f2))
+                                
+                                i_id += 1
+                                
+                                # print(chm_pathfile)
+                                # print(chm_fname)
+                                QgsProject.instance().addMapLayers([lyr_chm], False)
+                                group_lyr.insertLayer(pos, lyr_chm)
+                                pos += 1
+                                chm_list_merge.append(chm_res_pathfile)
+                                print(chm_list_merge)
+                            else:
+                                self.dlg.textLog.append(self.tr("WARNING: CHM file {} has a different CRS than the one specified in the attribute table. Try to use the Recompute CHM checkbox.\n").format(sf["N_CHM"]))
+                                QCoreApplication.processEvents()
+                        except:
+                            self.dlg.textLog.append(self.tr("WARNING: CHM file {} has not a standard gdal format. Try to use the Recompute CHM checkbox.\n").format(sf["N_CHM"]))
+                            QCoreApplication.processEvents()
                             
-                        self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2, chm_fname)
-                        lyr_chm = QgsRasterLayer(chm_pathfile, chm_fname)
-                        chm_crs = lyr_chm.crs().authid()
-                        code_chm = chm_crs.split(':')
-                        
-                        chm_res_pathfile = self.resample(fi_res, self.chmFinalName, chm_out_tempdir, code_chm[1])
-                        
-
-                        
-                        for xml in os.listdir(chm_out_dir):
-                            #if xml.endswith('{}{}.aux.xml'.format(chm_fname, f2)):
-                            if xml.endswith('.xml'):
-                                xmlpath = os.path.join(chm_out_dir, xml)
-                            # ##text_files = [f for f in os.listdir(path) if f.endswith('.aux.xml')]
-                            # ##print(text_files)
-                                # print(xmlpath)
-                                os.remove(xmlpath)
-                        
-                        new_lyr_tile.changeAttributeValue(i_id, efield_id, code_chm[1])
-                        new_lyr_tile.changeAttributeValue(i_id, pfield_id, chm_out_dir)
-                        new_lyr_tile.changeAttributeValue(i_id, nfield_id, "{}{}".format(chm_fname, f2))
-                        
-                        i_id += 1
-                        
-                        # print(chm_pathfile)
-                        # print(chm_fname)
-                        QgsProject.instance().addMapLayers([lyr_chm], False)
-                        group_lyr.insertLayer(pos, lyr_chm)
-                        pos += 1
-                        chm_list_merge.append(chm_res_pathfile)
-                        print(chm_list_merge)
-
                     else:
                         self.dlg.textLog.append(self.tr("WARNING: CHM file {} not found. Try to use the Recompute CHM checkbox.\n").format(sf["N_CHM"]))
                         QCoreApplication.processEvents()
@@ -1330,6 +1341,9 @@ class ChmFromLidar ():
                             if len(extr_dsm.namelist()) > 0:
                                 extr_dsm.extractall(dsm_zip_path)
                                 check_dsm_zip = 1
+                                dsm_unzipped = []
+                                for dsm_unz in extr_dsm.namelist():
+                                    dsm_unzipped.append(dsm_unz)
                         dtm_zip_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DTM"]
                         dtm_zip_name = sf["N_DTM"].split(".")
                         dtm_fzip_name = dtm_zip_name[0] + '.' + dtm_zip_name[1].replace(dtm_zip_name[1], 'zip')
@@ -1340,6 +1354,9 @@ class ChmFromLidar ():
                             if len(extr_dtm.namelist()) > 0:
                                 extr_dtm.extractall(dtm_zip_path)
                                 check_dtm_zip = 1
+                                dtm_unzipped = []
+                                for dtm_unz in extr_dtm.namelist():
+                                    dtm_unzipped.append(dtm_unz)
                             
                     dsm_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DSM"]
                     dsm_pathfile = os.path.join(dsm_path, sf["N_DSM"])
@@ -1350,81 +1367,87 @@ class ChmFromLidar ():
                     dtm_name = sf["N_DTM"].split(".")
                     dsm_exist = os.path.isfile(dsm_pathfile)
                     dtm_exist = os.path.isfile(dtm_pathfile)
+                    self.dlg.textLog.append(self.tr("The DSM file is: {}\n").format(dsm_pathfile))
+                    QCoreApplication.processEvents()
+                    self.dlg.textLog.append(self.tr("The DTM file is: {}\n").format(dtm_pathfile))
+                    QCoreApplication.processEvents()
                     if dsm_exist == True and dtm_exist == True:
-                        ds = gdal.Open(dsm_pathfile)
-                        # added suffix to dsm name to avoid errors in case dsm and dtm file have the same name
-                        dsm_temp = os.path.join(chm_out_tempdir.name, '{}_dsm.tif'.format(dsm_name[0]))
-                        ds = gdal.Translate(dsm_temp, ds, outputSRS = 'EPSG:{}'.format(self.input_crs))
-                        ds = None
+                        try:
+                            dtm_file_epsg = gdal.Info(dtm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG","', 1)[-1].split('"')[0]
+                            dsm_file_epsg = gdal.Info(dsm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG","', 1)[-1].split('"')[0]
+                            if (dtm_file_epsg == sf["SR_EPSG"] and dsm_file_epsg == sf["SR_EPSG"]) or (dtm_file_epsg == '' and dsm_file_epsg == '') or (dtm_file_epsg == '' and dsm_file_epsg == sf["SR_EPSG"]) or (dsm_file_epsg == '' and dtm_file_epsg == sf["SR_EPSG"]):                               
+                                ds = gdal.Open(dsm_pathfile)
+                                # added suffix to dsm name to avoid errors in case dsm and dtm file have the same name
+                                dsm_temp = os.path.join(chm_out_tempdir.name, '{}_dsm.tif'.format(dsm_name[0]))
+                                ds = gdal.Translate(dsm_temp, ds, outputSRS = 'EPSG:{}'.format(self.input_crs))
+                                ds = None
 
-                        ds = gdal.Open(dtm_pathfile)
-                        # added suffix to dtm name to avoid errors in case dsm and dtm file have the same name
-                        dtm_temp = os.path.join(chm_out_tempdir.name, '{}_dtm.tif'.format(dtm_name[0]))
-                        ds = gdal.Translate(dtm_temp, ds, outputSRS = 'EPSG:{}'.format(self.input_crs))
-                        ds = None
-                        lyr_dsm = QgsRasterLayer(dsm_temp, '{}_dsm.tif'.format(dsm_name[0]))
-                        lyr_dtm = QgsRasterLayer(dtm_temp, '{}_dtm.tif'.format(dtm_name[0]))
-                        #QgsProject.instance().addMapLayers([lyr_dsm])
-                        #QgsProject.instance().addMapLayers([lyr_dtm])
-                        #chm_out_dir = self.chm_path_folder
-                        chm_out_name = sf["N_DTM"].split(".")
-                        #print(chm_out_name[0])
-                        if 'DTM' in chm_out_name[0]:
-                            chm_fname = chm_out_name[0].replace('DTM', 'CHM')
-                            #print(chm_fname)
-                        elif 'dtm' in chm_out_name[0]:
-                            chm_fname = chm_out_name[0].replace('dtm', 'chm')
-                        elif 'ground' in chm_out_name[0]:
-                            chm_fname = chm_out_name[0].replace('ground', 'chm')
-                        else:
-                            chm_fname = chm_out_name[0] + '_CHM'
-                            
-                        chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
-                        print(chm_pathfile)
-                        
-                        
-                        self.Calc(dsm_name, dtm_name, chm_out_tempdir, chm_fname, lyr_dsm, lyr_dtm, dsm_pathfile, dtm_pathfile)
-                        self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2, chm_fname)
-                        lyr_chm = QgsRasterLayer(chm_pathfile, chm_fname)
-                        chm_crs = lyr_chm.crs().authid()
-                        code_chm = chm_crs.split(':')
-                        
-                        chm_res_pathfile = self.resample(fi_res, self.chmFinalName, chm_out_tempdir, code_chm[1])
-                        
-
-                        
-                        for xml in os.listdir(chm_out_dir):
-                            #if xml.endswith('{}{}.aux.xml'.format(chm_fname, f2)):
-                            if xml.endswith('.xml'):
-                                xmlpath = os.path.join(chm_out_dir, xml)
-                            # ##text_files = [f for f in os.listdir(path) if f.endswith('.aux.xml')]
-                            # ##print(text_files)
-                                # print(xmlpath)
-                                os.remove(xmlpath)
+                                ds = gdal.Open(dtm_pathfile)
+                                # added suffix to dtm name to avoid errors in case dsm and dtm file have the same name
+                                dtm_temp = os.path.join(chm_out_tempdir.name, '{}_dtm.tif'.format(dtm_name[0]))
+                                ds = gdal.Translate(dtm_temp, ds, outputSRS = 'EPSG:{}'.format(self.input_crs))
+                                ds = None
+                                lyr_dsm = QgsRasterLayer(dsm_temp, '{}_dsm.tif'.format(dsm_name[0]))
+                                lyr_dtm = QgsRasterLayer(dtm_temp, '{}_dtm.tif'.format(dtm_name[0]))
+                                #QgsProject.instance().addMapLayers([lyr_dsm])
+                                #QgsProject.instance().addMapLayers([lyr_dtm])
+                                #chm_out_dir = self.chm_path_folder
+                                chm_out_name = sf["N_DTM"].split(".")
+                                #print(chm_out_name[0])
+                                if 'DTM' in chm_out_name[0]:
+                                    chm_fname = chm_out_name[0].replace('DTM', 'CHM')
+                                    #print(chm_fname)
+                                elif 'dtm' in chm_out_name[0]:
+                                    chm_fname = chm_out_name[0].replace('dtm', 'chm')
+                                elif 'ground' in chm_out_name[0]:
+                                    chm_fname = chm_out_name[0].replace('ground', 'chm')
+                                else:
+                                    chm_fname = chm_out_name[0] + '_CHM'
+                                    
+                                chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
+                                print(chm_pathfile)
                                 
-                        #chm_pathfile = os.path.join(sf["P_CHM"], sf["N_CHM"])
-                        #chm_pathfile = chm_out_dir + '\\' + '{}.tif'.format(chm_fname)
-                        #chm_pathfile = os.path.join(chm_out_dir, '{}.tif'.format(chm_fname))
-                        
-                        
-                        #######DA DECOMMENTARE SONO LE RIGHE CHE SCRIVONO NELLA TABELLA########
-                        #chm_crs = lyr_chm.crs().authid()
-                        #code_chm = chm_crs.split(':')
-                        
-                        new_lyr_tile.changeAttributeValue(i_id, efield_id, code_chm[1])
-                        new_lyr_tile.changeAttributeValue(i_id, pfield_id, chm_out_dir)
-                        new_lyr_tile.changeAttributeValue(i_id, nfield_id, "{}{}".format(chm_fname, f2))
-                        
-                        i_id += 1
-                        
-                        # print(chm_pathfile)
-                        # print(chm_fname)
-                        QgsProject.instance().addMapLayers([lyr_chm], False)
-                        group_lyr.insertLayer(pos, lyr_chm)
-                        pos += 1
-                        chm_list_merge.append(chm_res_pathfile)
-                        print(chm_list_merge)
-                        
+                                
+                                self.Calc(dsm_name, dtm_name, chm_out_tempdir, chm_fname, lyr_dsm, lyr_dtm, dsm_pathfile, dtm_pathfile)
+                                self.postCalc(chm_out_tempdir, self.chmFinalName, chm_pathfile, f1, sf, f2, chm_fname)
+                                lyr_chm = QgsRasterLayer(chm_pathfile, chm_fname)
+                                chm_crs = lyr_chm.crs().authid()
+                                code_chm = chm_crs.split(':')
+                                
+                                chm_res_pathfile = self.resample(fi_res, self.chmFinalName, chm_out_tempdir, code_chm[1])
+                                
+
+                                
+                                for xml in os.listdir(chm_out_dir):
+                                    #if xml.endswith('{}{}.aux.xml'.format(chm_fname, f2)):
+                                    if xml.endswith('.xml'):
+                                        xmlpath = os.path.join(chm_out_dir, xml)
+                                    # ##text_files = [f for f in os.listdir(path) if f.endswith('.aux.xml')]
+                                    # ##print(text_files)
+                                        # print(xmlpath)
+                                        os.remove(xmlpath)
+                                        
+                                
+                                new_lyr_tile.changeAttributeValue(i_id, efield_id, code_chm[1])
+                                new_lyr_tile.changeAttributeValue(i_id, pfield_id, chm_out_dir)
+                                new_lyr_tile.changeAttributeValue(i_id, nfield_id, "{}{}".format(chm_fname, f2))
+                                
+                                i_id += 1
+                                
+                                # print(chm_pathfile)
+                                # print(chm_fname)
+                                QgsProject.instance().addMapLayers([lyr_chm], False)
+                                group_lyr.insertLayer(pos, lyr_chm)
+                                pos += 1
+                                chm_list_merge.append(chm_res_pathfile)
+                                print(chm_list_merge)
+                            else:
+                                self.dlg.textLog.append(self.tr("WARNING: DSM file {} and/or DTM file {} have a different CRS than the one specified in the attribute table. The CHM won't be computed.\n").format(sf["N_DSM"], sf["N_DTM"]))
+                                QCoreApplication.processEvents()
+                        except:
+                            self.dlg.textLog.append(self.tr("WARNING: DSM file {} and/or DTM file {} have not a standard gdal format. Unable to open them.\n").format(sf["N_DSM"], sf["N_DTM"]))
+                            QCoreApplication.processEvents()
+                            
                     else:
                         if dsm_exist == False and dtm_exist == True:
                             self.dlg.textLog.append(self.tr("WARNING: DSM file {} not found. The related CHM will not be computed.\n").format(sf["N_DSM"]))
@@ -1437,10 +1460,14 @@ class ChmFromLidar ():
                             QCoreApplication.processEvents()
                     
                     if check_dsm_zip == 1 :
-                        os.remove(dsm_pathfile)
+                            for r_dsm_unz in dsm_unzipped:
+                                dsm_unz_path = os.path.join(dsm_path, r_dsm_unz)
+                                os.remove(dsm_unz_path)
                         
                     if check_dtm_zip == 1:
-                        os.remove(dtm_pathfile)
+                        for r_dtm_unz in dtm_unzipped:
+                            dtm_unz_path = os.path.join(dtm_path, r_dtm_unz)
+                            os.remove(dtm_unz_path)
                 
             new_lyr_tile.commitChanges()
             
