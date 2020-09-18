@@ -54,7 +54,7 @@ class ChmFromLidar ():
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
-        print('sono nel costruttore')
+        #print('sono nel costruttore')
         """Constructor.
 
         :param iface: An interface instance that will be passed to this class
@@ -227,7 +227,7 @@ class ChmFromLidar ():
 
         # will be set False in run()
         self.first_start = True
-        print('sono in initgui')
+        #print('sono in initgui')
         self.dlg = ChmFromLidarDialog()
         
 
@@ -241,14 +241,14 @@ class ChmFromLidar ():
             
     def importDsmButton(self):
         self.dsm_folder = QFileDialog.getExistingDirectory()
-        print (self.dsm_folder)
+        #print (self.dsm_folder)
         dsm_txt_folder = self.dlg.import_dsm.setText(self.dsm_folder) #scrive semplicemente la url nel form della gui
         #print (dsm_sel_folder)
         #return dsm_folder
         
     def importDtmButton(self):
         self.dtm_folder = QFileDialog.getExistingDirectory()
-        print (self.dtm_folder)
+        #print (self.dtm_folder)
         dtm_txt_folder = self.dlg.import_dtm.setText(self.dtm_folder) #scrive semplicemente la url nel form della gui
         #print (dsm_sel_folder)
         #return dsm_folder
@@ -256,8 +256,8 @@ class ChmFromLidar ():
     def exportChmButton(self):
         self.chm_folder = QFileDialog.getExistingDirectory()
         self.chm_path_folder = QDir.toNativeSeparators(self.chm_folder)
-        print (self.chm_folder)
-        print (self.chm_path_folder)
+        #print (self.chm_folder)
+        #print (self.chm_path_folder)
         chm_txt_folder = self.dlg.export_chm.setText(self.chm_path_folder) #scrive semplicemente la url nel form della gui
         #print (dsm_sel_folder)
         #return dsm_folder
@@ -314,19 +314,19 @@ class ChmFromLidar ():
         self.crs_select = QgsProjectionSelectionDialog()
         self.crs_select.exec_()
         self.selectedcrsdef = self.crs_select.crs()
-        print(self.selectedcrsdef)
+        #print(self.selectedcrsdef)
         self.selectedcrs = self.selectedcrsdef.authid()
-        print(self.selectedcrs)
+        #print(self.selectedcrs)
         if self.selectedcrs != '':
             self.epsg_code = self.selectedcrs.split(":")
-            print(self.epsg_code)
+            #print(self.epsg_code)
             self.code = self.epsg_code[1]
-            print(self.code)
+            #print(self.code)
         else:
             self.epsg_code = ''
-            print(self.epsg_code)
+            #print(self.epsg_code)
             self.code = ''
-            print(self.code)
+            #print(self.code)
             
     def clearButton(self):
         self.dlg.textLog.clear()
@@ -343,36 +343,36 @@ class ChmFromLidar ():
         #self.checkNegBox = state
         if self.dlg.checkNegValBox.isChecked() == True:
             self.checkNegBox = True
-            print('check')
+            #print('check')
         else:
             self.checkNegBox = False
-            print('ucheck')
+            #print('ucheck')
             
     def handleChmkBox(self):
         #self.checkNegBox = state
         if self.dlg.useChmBox.isChecked() == True:
             self.checkChmBox = True
-            print('check')
+            #print('check')
         else:
             self.checkChmBox = False
-            print('ucheck')
+            #print('ucheck')
             
     def handleSpinBox(self, val):
         self.spinMaxBox = val
-        print(self.spinMaxBox)
+        #print(self.spinMaxBox)
         
     def handleResSpinBox(self, val):
         self.spinResBox = val
-        print(self.spinResBox)
+        #print(self.spinResBox)
         
     def handleClipName(self, val):
         self.NameClip = val
-        print(self.NameClip)
+        #print(self.NameClip)
         
     def comboBoxe(self, idx):
-        print('fai qualcosa')
+        #print('fai qualcosa')
         self.comboIndex = idx
-        print(self.comboIndex)
+        #print(self.comboIndex)
         vlayer = self.dlg.comboAoiBox.currentLayer()
         # #print(self.comboIndex)
         # #print(self.comboIndex - 1)
@@ -380,13 +380,13 @@ class ChmFromLidar ():
             self.dlg.resolSpinBox.setEnabled(False)
             self.dlg.resolSpinBox.setValue(0.00)
             self.spinResBox = 0.00
-            print(self.spinResBox)
+            #print(self.spinResBox)
             if not vlayer.selectedFeatures():
                 self.dlg.checkSelFeatbox.setChecked(False)
                 self.dlg.checkSelFeatbox.setEnabled(False)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
-                print('ciao')
+                #print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
             # self.dlg.comboAoiBox.setDisabled(True)
@@ -400,12 +400,12 @@ class ChmFromLidar ():
                 self.dlg.checkSelFeatbox.setEnabled(False)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("No features selected in layer"))
             else:
-                print('ciao')
+                #print('ciao')
                 self.dlg.checkSelFeatbox.setEnabled(True)
                 self.dlg.checkSelFeatbox.setToolTip(self.tr("Use only selected features"))
     
     def enteBox(self, idxe):
-        print('ente')
+        #print('ente')
         self.enteIndex = idxe
         if self.enteIndex == 0:
             uniquevalues = []
@@ -426,7 +426,7 @@ class ChmFromLidar ():
                 # #str_values = str(uv).split("\\")
                 # #if len(str_values) > 1: #per percorsi regione veneto mettere 4
                     # #show_values.append(str_values[1] + ' - ' + str_values[2]) #per percorsi regione veneto mettere 5 e 6
-            print (self.show_values)
+            #print (self.show_values)
             
             self.dlg.comboBox.clear()
             self.dlg.comboBox.addItem('') #--> aggiunge una riga vuota nell'elenco della combo
@@ -434,7 +434,7 @@ class ChmFromLidar ():
         else:
             self.show_values = []
             filter = self.dlg.comboEnteBox.currentText()
-            print (filter)
+            #print (filter)
             values = [feat['P_CAMPAGNA'] for feat in self.lyr.getFeatures() if feat['ENTE'] == filter]
             list_val = set(values)
             for uv in list_val:
@@ -451,7 +451,7 @@ class ChmFromLidar ():
         if len(QgsProject.instance().mapLayers()) > 1:
             self.aoiIndex = aidx
         vlayer = self.dlg.comboAoiBox.currentLayer()
-        print(vlayer)
+        #print(vlayer)
         #if self.aoiIndex != -1 and self.comboIndex == 0:
         if self.aoiIndex != -1 and self.comboIndex != 0:
             #print(self.aoiIndex)
@@ -499,9 +499,9 @@ class ChmFromLidar ():
         return unique_list
         
     def calc2(self, chm_calc, chm_out_tempdir, chm_calc2):
-        print('eccolo la funzione calc2')
-        print(chm_out_tempdir)
-        print(chm_calc)
+        #print('eccolo la funzione calc2')
+        #print(chm_out_tempdir)
+        #print(chm_calc)
         processing.run("qgis:rastercalculator", {'EXPRESSION' : '(\"{0}@1\" > 0) * \"{0}@1\"'.format(chm_calc),
         'LAYERS' : '{}/{}.tif'.format(chm_out_tempdir.name, chm_calc),
         #'CRS' : QgsCoordinateReferenceSystem('EPSG:4326'),
@@ -510,9 +510,9 @@ class ChmFromLidar ():
         #self.chmFinalName2 = chm_calc2
         
     def calc3(self, chm_tname, chm_out_tempdir, chm_calc3):
-        print('eccolo la funzione calc3')
-        print(chm_out_tempdir)
-        print(chm_tname)
+        #print('eccolo la funzione calc3')
+        #print(chm_out_tempdir)
+        #print(chm_tname)
         processing.run("qgis:rastercalculator", {'EXPRESSION' : '(\"{0}@1\" < {1}) * \"{0}@1\" + (\"{0}@1\" >= {1}) * {1}'.format(chm_tname, self.spinMaxBox),
         'LAYERS' : '{}/{}.tif'.format(chm_out_tempdir.name, chm_tname),
         #'CRS' : QgsCoordinateReferenceSystem('EPSG:4326'),
@@ -544,7 +544,7 @@ class ChmFromLidar ():
         return check_geo
         
     def latLonres(self, code_chm, ress):
-        print('sono in latlonres')
+        #print('sono in latlonres')
         # Input:
         # 0: EPSG
         # 1: risoluzione
@@ -553,9 +553,9 @@ class ChmFromLidar ():
         input = self.lyr
         input_res = ress
         input_epsg = code_chm
-        print(path.name)
-        print(input_epsg)
-        print(input_res)
+        #print(path.name)
+        #print(input_epsg)
+        #print(input_res)
         #inviluppo=os.path.join(path.name,'inviluppo.shp')
         centro=os.path.join(path.name,'centro_{}.shp'.format(self.rs_count))
         buffer=os.path.join(path.name,'buffer_{}.shp'.format(self.rs_count))
@@ -600,7 +600,7 @@ class ChmFromLidar ():
             #raggio = perimeter/(pi*2)
         self.rs_count += 1
         #print("EST={},NORD={}".format(EST,NORD))
-        print(resol)
+        #print(resol)
         return resol
         
     def convertRes(self, code_chm):
@@ -620,8 +620,8 @@ class ChmFromLidar ():
         chm_res_temppathfile = os.path.join(chm_out_tempdir.name, '{}_res.tif'.format(chmFinalName))
         if self.spinResBox != 0.00:
             chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
-            print('fai resample 1')
-            print(chm_temppathfile)
+            #print('fai resample 1')
+            #print(chm_temppathfile)
             processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                 'SOURCE_CRS': None,
                 'TARGET_CRS': 'EPSG:{}'.format(code_chm),
@@ -630,12 +630,12 @@ class ChmFromLidar ():
                 'TARGET_RESOLUTION' : self.convertRes(code_chm),
                 'DATA_TYPE': 0,
                 'OUTPUT': chm_res_temppathfile})
-            print(chm_res_temppathfile)
+            #print(chm_res_temppathfile)
             return chm_res_temppathfile
 
         elif len(self.unique(res)) > 1 and self.spinResBox == 0.00:
             chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
-            print('fai resample 2')
+            #print('fai resample 2')
             processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                 'SOURCE_CRS': None,
                 'TARGET_CRS': 'EPSG:{}'.format(code_chm),
@@ -646,14 +646,14 @@ class ChmFromLidar ():
                 'OUTPUT': chm_res_temppathfile})
             return chm_res_temppathfile
         else:
-            print('no resample')
+            #print('no resample')
             chm_temppathfile = os.path.join(chm_out_tempdir.name, '{}.tif'.format(chmFinalName))
             return chm_temppathfile
             
     def clip(self, chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile, sf):
-        print('eccolo la funzione clip')
-        print(chm_list_merge)
-        print(chm_out_tempdir.name)
+        #print('eccolo la funzione clip')
+        #print(chm_list_merge)
+        #print(chm_out_tempdir.name)
         processing.run("gdal:merge", {'INPUT' : chm_list_merge,
             'DATA_TYPE' : 5,
             # #'CRS' : QgsCoordinateReferenceSystem('EPSG:4326'),
@@ -661,7 +661,7 @@ class ChmFromLidar ():
         
         merge_pathfile = os.path.join(chm_out_tempdir.name, 'merge.tif')
         
-        print(merge_pathfile)
+        #print(merge_pathfile)
 
         processing.run("gdal:cliprasterbymasklayer", {'INPUT' : merge_pathfile,
             'MASK' : selectedAoiFeats,
@@ -677,7 +677,7 @@ class ChmFromLidar ():
             if (self.selectedcrs == '' or self.code == '' or self.code == self.input_crs):
                 shutil.move(clip_temppathfile, clip_pathfile)
             else:
-                print(self.selectedcrs)
+                #print(self.selectedcrs)
                 
                 processing.run("gdal:warpreproject", {'INPUT': clip_temppathfile,
                     'SOURCE_CRS': None,
@@ -690,7 +690,7 @@ class ChmFromLidar ():
                 shutil.move(clip_repr_temppathfile, clip_pathfile)    
             
         elif f1 != 'GeoTIFF':
-            print('stai salvando in un altro formato')
+            #print('stai salvando in un altro formato')
             if (self.selectedcrs == '' or self.code == '' or self.code == self.input_crs):
                 #print('stai salvando in un altro formato con 4326')
                 processing.run("gdal:translate", {'INPUT': clip_temppathfile,
@@ -721,7 +721,7 @@ class ChmFromLidar ():
                 if clip.startswith('clip_tran'):
                     filename, file_extension = os.path.splitext(clip)
                     file_name = clip.replace(filename, self.NameClip)
-                    print(file_name)
+                    #print(file_name)
                     oldfilepath = os.path.join(chm_out_tempdir.name, '{}{}'.format(filename, file_extension))
                     newfilepath = os.path.join(self.chm_path_folder, '{}'.format(file_name))
                 # ##text_files = [f for f in os.listdir(path) if f.endswith('.aux.xml')]
@@ -755,8 +755,8 @@ class ChmFromLidar ():
             self.pluginIsActive = True
             self.dlg = ChmFromLidarDialog()
 
-            print(self.dlg.checkNegValBox.isChecked())
-            print(self.dlg.useChmBox.isChecked())
+            #print(self.dlg.checkNegValBox.isChecked())
+            #print(self.dlg.useChmBox.isChecked())
             self.dlg.exportChmButton.clicked.connect(self.exportChmButton)
             self.dlg.crsButton.clicked.connect(self.crsButton)
             self.dlg.clearButton.clicked.connect(self.clearButton)
@@ -783,7 +783,7 @@ class ChmFromLidar ():
             self.lyr = QgsProject.instance().mapLayersByName('tile_dsm_dtm')[0]
         else:
             path = os.path.join(self.plugin_dir, 'tile_dsm_dtm.gpkg')
-            print(path)
+            #print(path)
             lyr_tile = QgsVectorLayer(path, 'tile_dsm_dtm')
             lyr_tile.setSubsetString('"N_DTM" NOT NULL and "N_DSM" NOT NULL')
             QgsProject.instance().addMapLayers([lyr_tile])
@@ -792,7 +792,7 @@ class ChmFromLidar ():
 
         self.popComboEnte()
         
-        print(self.dlg.comboBox.currentIndex()) #--> restituisce l'indice della riga selezionata
+        #print(self.dlg.comboBox.currentIndex()) #--> restituisce l'indice della riga selezionata
         
         self.dlg.comboAoiBox.clear()
         self.dlg.comboAoiBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
@@ -874,9 +874,9 @@ class ChmFromLidar ():
 
         from qgis.utils import reloadPlugin
         reloadPlugin("ChmFromLidar")
-        print(self.checkNegBox)
-        print(self.dlg.comboBox.currentIndex())
-        print(self.dlg.comboAoiBox.currentIndex())
+        #print(self.checkNegBox)
+        #print(self.dlg.comboBox.currentIndex())
+        #print(self.dlg.comboAoiBox.currentIndex())
         
     def Calc(self, dsm_name, dtm_name, chm_out_tempdir, chm_fname, lyr_dsm, lyr_dtm, dsm_pathfile, dtm_pathfile):
         # entries = []
@@ -898,10 +898,10 @@ class ChmFromLidar ():
         chm_calc3 = '{}_calc3'.format(chm_fname)
         
         #directory = 'C:/Users/user/Documents'
-        print(dsm_pathfile)
-        print(dtm_pathfile)
-        print(dsm_name[0])
-        print(dtm_name[0])
+        #print(dsm_pathfile)
+        #print(dtm_pathfile)
+        #print(dsm_name[0])
+        #print(dtm_name[0])
         #print(sf["SR_EPSG"])
         #calc = QgsRasterCalculator('{}@1 - {}@1'.format(dsm_name[0], dtm_name[0]), '{}/{}.tif'.format(chm_out_tempdir.name, chm_calc), 'GTiff', lyr_dsm.extent(), lyr_dsm.width(), lyr_dsm.height(), entries)
         #calc.processCalculation()
@@ -911,8 +911,8 @@ class ChmFromLidar ():
         # 'EXTENT' : None,
         'CRS' : 'EPSG:{}'.format(self.input_crs),
         'OUTPUT': '{}/{}.tif'.format(chm_out_tempdir.name, chm_calc)})
-        print(chm_out_tempdir)
-        print(chm_calc)
+        #print(chm_out_tempdir)
+        #print(chm_calc)
         
         self.chmFinalName = chm_calc
         #self.chmFinalName2 = chm_calc
@@ -929,17 +929,17 @@ class ChmFromLidar ():
         chm_warp_temppathfile = os.path.join(chm_out_tempdir.name, '{}_warp.tif'.format(chmFinalName))
         chm_trans_temppathfile = os.path.join(chm_out_tempdir.name, '{}_trans{}'.format(chmFinalName, f2))
         if f1 == 'GeoTIFF':
-            print('stai salvando in geotif')
-            print(f2)
+            #print('stai salvando in geotif')
+            #print(f2)
             if (self.selectedcrs == '' or self.code == '' or self.code == self.input_crs):
                 chm_temppathfile_copy = os.path.join(chm_out_tempdir.name, '{}_copy.tif'.format(chmFinalName))
-                print('sono qui')
+                #print('sono qui')
                 copyfile(chm_temppathfile, chm_temppathfile_copy)
                 shutil.move(chm_temppathfile_copy, chm_pathfile)
                 
             #elif self.code != sf["SR_EPSG"] or self.code != self.epsg_cam:
             else:
-                print(self.selectedcrs)
+                #print(self.selectedcrs)
 
                 processing.run("gdal:warpreproject", {'INPUT': chm_temppathfile,
                     'SOURCE_CRS': None,
@@ -950,9 +950,9 @@ class ChmFromLidar ():
                     'OUTPUT': chm_warp_temppathfile})
 
                 shutil.move(chm_warp_temppathfile, chm_pathfile)
-                print(chm_temppathfile)   
+                #print(chm_temppathfile)   
         elif f1 != 'GeoTIFF':
-            print('stai salvando in un altro formato')
+            #print('stai salvando in un altro formato')
             if (self.selectedcrs == '' or self.code == '' or self.code == self.input_crs):
                 #print('stai salvando in un altro formato con 4326')
             
@@ -991,7 +991,7 @@ class ChmFromLidar ():
                 if file.startswith('{}_trans'.format(chmFinalName)):
                     filename, file_extension = os.path.splitext(file)
                     file_name = file.replace(filename, chm_fname)
-                    print(file_name)
+                    #print(file_name)
                     oldfilepath = os.path.join(chm_out_tempdir.name, '{}{}'.format(filename, file_extension))
                     newfilepath = os.path.join(self.chm_path_folder, '{}'.format(file_name))
                 # ##text_files = [f for f in os.listdir(path) if f.endswith('.aux.xml')]
@@ -1002,18 +1002,18 @@ class ChmFromLidar ():
 
     
     def run(self):
-        print('sono in run')
+        #print('sono in run')
         self.dlg.textLog.setText(self.tr('PROCESS STARTED...\n'))
         QCoreApplication.processEvents()
         #directory = 'C:/Users/user/Documents'
         """Run method that performs all the real work"""
         #self.dlg.checkNegValBox.setChecked(False)
-        print(self.dlg.checkNegValBox.isChecked())
+        #print(self.dlg.checkNegValBox.isChecked())
         #print(self.selectedcrs)
 
         if self.lyr.selectedFeatureCount() > 0:
             self.lyr.removeSelection()
-            print('selection removed')
+            #print('selection removed')
         else:
             print('No feature selected')
 
@@ -1028,8 +1028,8 @@ class ChmFromLidar ():
         # See if OK was pressed
         if result:
             #self.dlg.show()
-            print(result)
-            print(self.checkNegBox)
+            #print(result)
+            #print(self.checkNegBox)
 
             if self.chm_out_tempdir_s == '':
                 self.chm_out_tempdir_s = tempfile.TemporaryDirectory()
@@ -1038,13 +1038,13 @@ class ChmFromLidar ():
                 self.chm_out_tempdir_s = tempfile.TemporaryDirectory()
             
             chm_out_tempdir = self.chm_out_tempdir_s
-            print(chm_out_tempdir)
-            print(chm_out_tempdir.name)
+            #print(chm_out_tempdir)
+            #print(chm_out_tempdir.name)
             
             selectedFormatIndex = self.dlg.comboFormatBox.currentIndex()
-            print (selectedFormatIndex)
+            #print (selectedFormatIndex)
             selectedFormat = self.raster_format[selectedFormatIndex]
-            print (selectedFormat)
+            #print (selectedFormat)
             format = selectedFormat.split(": ")
             f1 = format[0]
             f2 = format[1]
@@ -1053,13 +1053,13 @@ class ChmFromLidar ():
             #print (campaignIndex)
             #selectedCampaignIndex = campaignIndex - 1
             selectedCampaign = self.show_values[self.comboIndex - 1]
-            print (selectedCampaign)
+            #print (selectedCampaign)
             
             #aoiIndex = self.dlg.comboAoiBox.currentIndex()
             #print (aoiIndex)
             #selectedAoiIndex = aoiIndex - 1
             selectedAoi = self.dlg.comboAoiBox.currentLayer()
-            print(selectedAoi)
+            #print(selectedAoi)
             
             if self.dlg.checkSelFeatbox.isChecked():
                 selectedAoiFeats = QgsProcessingFeatureSourceDefinition(selectedAoi.id(), True)
@@ -1158,15 +1158,15 @@ class ChmFromLidar ():
                     i = f.id()
                     #break
                 #i = ii[0]
-                print(ii)
-                print(i)
+                #print(ii)
+                #print(i)
                 for fi in self.lyr.getSelectedFeatures():
                     fi_ov.append(fi["P_CAMPAGNA"])
                     fi_res.append(fi["RISOLUZ_RA"])
                     fi_an.append(fi["ANNO"])
                     fi_epsg.append(fi["SR_EPSG"])
                     fi_ente.append(fi["ENTE"])
-                    print(fi["ANNO"])
+                    #print(fi["ANNO"])
                     log_dict[fi_ov[-1]] = (fi_an[-1], fi_res[-1], fi_ente[-1])
                     i = fi.id()
                 #    if f.id() == i:
@@ -1186,14 +1186,14 @@ class ChmFromLidar ():
                     #i = i+1
                 #   else:
 
-                print(self.unique(fi_ov))
-                print(len(self.unique(fi_ov)))
+                #print(self.unique(fi_ov))
+                #print(len(self.unique(fi_ov)))
                 if len(self.unique(fi_ov)) == 1:
                     self.tableRes = self.unique(fi_res)[0]
-                    print('fai tutto')
+                    #print('fai tutto')
                     epsg_cam = self.unique(fi_epsg)[0]
                     if self.spinResBox != 0.00 and self.tableRes > self.spinResBox:
-                        print(self.spinResBox)
+                        #print(self.spinResBox)
                         self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) == 0:
                     self.tableRes = max(fi_res)
@@ -1209,7 +1209,7 @@ class ChmFromLidar ():
                         return
 
                     if self.spinResBox != 0.00 and self.tableRes > self.spinResBox:
-                        print(self.spinResBox)
+                        #print(self.spinResBox)
                         self.dlg.textLog.append(self.tr("WARNING: a resolution lower than the one of the input data has been selected\n"))
                 elif len(self.unique(fi_ov)) > 1 and len(fi2_ov) > 1:
                     self.overlapLog(fi_ov, log_dict)
@@ -1230,7 +1230,13 @@ class ChmFromLidar ():
             if self.dlg.clipName.isEnabled() == True:
                 name_new_lyr = '{}_{}_selectedTiles'.format(self.NameClip, datetime.now().strftime("%Y%m%d_%H%M%S"))
             else:
-                name_new_lyr = '{}_{}_selectedTiles'.format(selectedCampaign.replace('\\', '_'), datetime.now().strftime("%Y%m%d_%H%M%S"))
+                if selectedCampaign.find('\\') != -1:
+                    name_new_lyr = '{}_{}_selectedTiles'.format(selectedCampaign.replace('\\', '_'), datetime.now().strftime("%Y%m%d_%H%M%S"))
+                elif selectedCampaign.find('/') != -1:
+                    name_new_lyr = '{}_{}_selectedTiles'.format(selectedCampaign.replace('/', '_'), datetime.now().strftime("%Y%m%d_%H%M%S"))
+                else:
+                    name_new_lyr = '{}_{}_selectedTiles'.format(selectedCampaign, datetime.now().strftime("%Y%m%d_%H%M%S"))
+                    
             name_new_shp = '{}.shp'.format(name_new_lyr)
             processing.run("native:saveselectedfeatures", { 'INPUT' : self.lyr, 
             'OUTPUT' : '{}/{}'.format(self.chm_path_folder, name_new_shp)})
@@ -1263,7 +1269,7 @@ class ChmFromLidar ():
                         self.dlg.textLog.append(self.tr("CHM file {} has been found and it will be used for the next computation steps.\n").format(sf["N_CHM"]))
                         QCoreApplication.processEvents()
                         try:
-                            chm_file_epsg = gdal.Info(inchm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG","', 1)[-1].split('"')[0]
+                            chm_file_epsg = gdal.Info(inchm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG",', 1)[-1].split(']')[0]
                             if chm_file_epsg == sf["EPSG_CHM"] or chm_file_epsg == '':
                                 self.input_crs = sf["EPSG_CHM"]
                                 inchm_name = sf["N_CHM"].split(".")
@@ -1316,7 +1322,7 @@ class ChmFromLidar ():
                                 group_lyr.insertLayer(pos, lyr_chm)
                                 pos += 1
                                 chm_list_merge.append(chm_res_pathfile)
-                                print(chm_list_merge)
+                                #print(chm_list_merge)
                             else:
                                 self.dlg.textLog.append(self.tr("WARNING: CHM file {} has a different CRS than the one specified in the attribute table. Try to use the Recompute CHM checkbox.\n").format(sf["N_CHM"]))
                                 QCoreApplication.processEvents()
@@ -1362,7 +1368,7 @@ class ChmFromLidar ():
                     dsm_pathfile = os.path.join(dsm_path, sf["N_DSM"])
                     dtm_path = sf["P_BASE"] + sf["P_CAMPAGNA"] + sf["P_DTM"]
                     dtm_pathfile = os.path.join(dtm_path, sf["N_DTM"])
-                    print(dtm_pathfile)
+                    #print(dtm_pathfile)
                     dsm_name = sf["N_DSM"].split(".")
                     dtm_name = sf["N_DTM"].split(".")
                     dsm_exist = os.path.isfile(dsm_pathfile)
@@ -1373,16 +1379,38 @@ class ChmFromLidar ():
                     QCoreApplication.processEvents()
                     if dsm_exist == True and dtm_exist == True:
                         try:
-                            dtm_file_epsg = gdal.Info(dtm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG","', 1)[-1].split('"')[0]
-                            dsm_file_epsg = gdal.Info(dsm_pathfile, format='json')['coordinateSystem']['wkt'].rsplit('"EPSG","', 1)[-1].split('"')[0]
-                            if (dtm_file_epsg == sf["SR_EPSG"] and dsm_file_epsg == sf["SR_EPSG"]) or (dtm_file_epsg == '' and dsm_file_epsg == '') or (dtm_file_epsg == '' and dsm_file_epsg == sf["SR_EPSG"]) or (dsm_file_epsg == '' and dtm_file_epsg == sf["SR_EPSG"]):                               
+                            #print('sono nel try')
+                            #modificare l'if sotto perchè su un layer non ha sr definito come nel caso degli asci non trova ['coordinateSystem'] e quindi dà un errore per cui esce dal try
+                            dtm_file_info = gdal.Info(dtm_pathfile, format='json')
+                            dsm_file_info = gdal.Info(dsm_pathfile, format='json')
+                            if 'coordinateSystem' in dtm_file_info:
+                                dtm_file_coord = gdal.Info(dtm_pathfile, format='json')['coordinateSystem']['wkt']
+                                if (dtm_file_coord.find('"EPSG","') != -1) or (dtm_file_coord == ''):
+                                    dtm_file_epsg = dtm_file_coord.rsplit('"EPSG","', 1)[-1].split('"')[0]
+                                else:
+                                    dtm_file_epsg = dtm_file_coord.rsplit('"EPSG",', 1)[-1].split(']')[0] 
+                            else:
+                                dtm_file_epsg = ''
+                            if 'coordinateSystem' in dsm_file_info:
+                                dsm_file_coord = gdal.Info(dsm_pathfile, format='json')['coordinateSystem']['wkt']
+                                if (dsm_file_coord.find('"EPSG","') != -1) or (dsm_file_coord == ''):
+                                    dsm_file_epsg = dsm_file_coord.rsplit('"EPSG","', 1)[-1].split('"')[0]
+                                else:
+                                    dsm_file_epsg = dsm_file_coord.rsplit('"EPSG",', 1)[-1].split(']')[0]
+                            else:
+                                dsm_file_epsg = ''
+                            #print(dtm_file_epsg)
+                            if (dtm_file_epsg == sf["SR_EPSG"] and dsm_file_epsg == sf["SR_EPSG"]) or (dtm_file_epsg == '' and dsm_file_epsg == '') or (dtm_file_epsg == '' and dsm_file_epsg == sf["SR_EPSG"]) or (dsm_file_epsg == '' and dtm_file_epsg == sf["SR_EPSG"]):
+                                #print('sono nel if')
                                 ds = gdal.Open(dsm_pathfile)
+                                #print('file aperto1')
                                 # added suffix to dsm name to avoid errors in case dsm and dtm file have the same name
                                 dsm_temp = os.path.join(chm_out_tempdir.name, '{}_dsm.tif'.format(dsm_name[0]))
                                 ds = gdal.Translate(dsm_temp, ds, outputSRS = 'EPSG:{}'.format(self.input_crs))
                                 ds = None
 
                                 ds = gdal.Open(dtm_pathfile)
+                                #print('file aperto2')
                                 # added suffix to dtm name to avoid errors in case dsm and dtm file have the same name
                                 dtm_temp = os.path.join(chm_out_tempdir.name, '{}_dtm.tif'.format(dtm_name[0]))
                                 ds = gdal.Translate(dtm_temp, ds, outputSRS = 'EPSG:{}'.format(self.input_crs))
@@ -1405,7 +1433,7 @@ class ChmFromLidar ():
                                     chm_fname = chm_out_name[0] + '_CHM'
                                     
                                 chm_pathfile = os.path.join(chm_out_dir, '{}{}'.format(chm_fname, f2))
-                                print(chm_pathfile)
+                                #print(chm_pathfile)
                                 
                                 
                                 self.Calc(dsm_name, dtm_name, chm_out_tempdir, chm_fname, lyr_dsm, lyr_dtm, dsm_pathfile, dtm_pathfile)
@@ -1440,7 +1468,7 @@ class ChmFromLidar ():
                                 group_lyr.insertLayer(pos, lyr_chm)
                                 pos += 1
                                 chm_list_merge.append(chm_res_pathfile)
-                                print(chm_list_merge)
+                                #print(chm_list_merge)
                             else:
                                 self.dlg.textLog.append(self.tr("WARNING: DSM file {} and/or DTM file {} have a different CRS than the one specified in the attribute table. The CHM won't be computed.\n").format(sf["N_DSM"], sf["N_DTM"]))
                                 QCoreApplication.processEvents()
@@ -1476,10 +1504,10 @@ class ChmFromLidar ():
                 self.clip(chm_out_tempdir, selectedAoiFeats, chm_list_merge, f1, f2, clip_pathfile, sf)
                 lyr_clip = QgsRasterLayer(clip_pathfile, self.NameClip)
                 QgsProject.instance().addMapLayers([lyr_clip], False)
-                group_lyr.insertLayer(0, lyr_clip)
+                group_lyr.insertLayer(0, lyr_clip)
             #self.iface.messageBar().pushSuccess("Success", "Selection Done.")
-            print('sono in run e ora chiudo')
+            #print('sono in run e ora chiudo')
             self.mainLog(selectedAoi, selectedCampaign, selectedFormat, sf)
-            print(result)
+            #print(result)
             
             
