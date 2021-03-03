@@ -794,7 +794,7 @@ class ChmFromLidar ():
         
         #print(self.dlg.comboBox.currentIndex()) #--> restituisce l'indice della riga selezionata
         
-        self.dlg.comboAoiBox.clear()
+        #self.dlg.comboAoiBox.clear()
         self.dlg.comboAoiBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
         self.dlg.comboAoiBox.setCurrentIndex(-1)
         #self.dlg.comboAoiBox.addItem('ciao')
