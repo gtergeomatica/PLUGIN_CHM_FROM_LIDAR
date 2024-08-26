@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/chm_from_lidar" >
-        <file>icon.png</file>
-    </qresource>
-</RCC>

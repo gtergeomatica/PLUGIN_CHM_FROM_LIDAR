@@ -1,0 +1,31 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Gter srl
+# This file is distributed under the same license as the Manuale - Plugin
+# CHM from LIDAR package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Manuale - Plugin CHM from LIDAR \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-16 12:49+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../index.rst:7
+msgid "Manuale: CHM from LIDAR Plugin QGIS"
+msgstr "Manual: CHM from LIDAR Plugin QGIS"
+
+#: ../../index.rst:8
+msgid "Contenuti:"
+msgstr "Subject:"
+
+#~ msgid "Tutorial: utilizzo di QGIS per la gestione di dati LIDAR forestali"
+#~ msgstr ""
+

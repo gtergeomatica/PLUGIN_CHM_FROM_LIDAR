@@ -1,0 +1,90 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Gter srl
+# This file is distributed under the same license as the Manuale - Plugin CHM from LIDAR package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Manuale - Plugin CHM from LIDAR \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-16 12:24+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../intro.rst:2
+msgid "Introduzione"
+msgstr ""
+
+#: ../../intro.rst:5
+msgid "Credits"
+msgstr ""
+
+#: ../../intro.rst:8
+msgid "https://psrveneto.it/"
+msgstr ""
+
+#: ../../intro.rst:11
+msgid "Il Plugin CHM from LIDAR è stato finanziato dal Programma di sviluppo rurale per il Veneto 2014-2020"
+msgstr ""
+
+#: ../../intro.rst:13
+msgid "Organismo responsabile dell’informazione: GTER Innovazione in Geomatica, GNSS e GIS"
+msgstr ""
+
+#: ../../intro.rst:15
+msgid "Autorità di gestione: Regione del Veneto - Direzione AdG FEASR e Foreste"
+msgstr ""
+
+#: ../../intro.rst:17
+msgid "Il Manuale è stato realizzato da `Gter srl`_  e distribuito con licenza https://creativecommons.org/licenses/by/4.0/"
+msgstr ""
+
+#: ../../intro.rst:19
+msgid "**Per gli utenti di Regione Veneto** è stato inoltre realizzato un tutorial dettagliato sull'utilizzo dei dati LIDAR a fini forestali in QGIS. Il tutorial (in italiano) comprende:"
+msgstr ""
+
+#: ../../intro.rst:21
+msgid "una breve sezione introduttiva sulla tecnologia LIDAR e le sue principali applicazioni in ambito ambientale e non solo,"
+msgstr ""
+
+#: ../../intro.rst:22
+msgid "una dettagliata descrizione dell'utilizzo e funzionamento del Plugin CHM from LIDAR con esempi pratici basati sui dati (DSM/DTM) di Regione Veneto"
+msgstr ""
+
+#: ../../intro.rst:23
+msgid "una sezione dedicata al post-processamento dei CHM ottenuti dall'utilizzo del plugin (es. riclassificazione e successiva vettorializzazione.)"
+msgstr ""
+
+#: ../../intro.rst:25
+msgid "**Il Tutorial è disponibile a questo link:** https://tutorial-lidar-qgis.readthedocs.io/en/latest/"
+msgstr ""
+
+#: ../../intro.rst:28
+msgid "Glossario"
+msgstr ""
+
+#: ../../intro.rst:30
+msgid "CHM: Canopy Height Model"
+msgstr ""
+
+#: ../../intro.rst:31
+msgid "DSM: Digital Surface Model"
+msgstr ""
+
+#: ../../intro.rst:32
+msgid "DTM: Digital Terrain Model"
+msgstr ""
+
+#: ../../intro.rst:33
+msgid "GIS: Geographic Information System"
+msgstr ""
+
+#: ../../intro.rst:34
+msgid "LIDAR: Laser Imaging Detection and Ranging"
+msgstr ""
+

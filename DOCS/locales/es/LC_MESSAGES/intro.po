@@ -1,0 +1,126 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019, Gter srl
+# This file is distributed under the same license as the Manuale - Plugin
+# CHM from LIDAR package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Manuale - Plugin CHM from LIDAR \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-07-16 12:24+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.7.0\n"
+
+#: ../../intro.rst:2
+msgid "Introduzione"
+msgstr "Introducción"
+
+#: ../../intro.rst:5
+msgid "Credits"
+msgstr "Créditos"
+
+#: ../../intro.rst:8
+msgid "https://psrveneto.it/"
+msgstr "https://psrveneto.it/"
+
+#: ../../intro.rst:11
+msgid ""
+"Il Plugin CHM from LIDAR è stato finanziato dal Programma di sviluppo "
+"rurale per il Veneto 2014-2020"
+msgstr ""
+"El Plugin CHM from LIDAR fue financiado por el Programma di sviluppo "
+"rurale per il Veneto 2014-2020"
+
+#: ../../intro.rst:13
+msgid ""
+"Organismo responsabile dell’informazione: GTER Innovazione in Geomatica, "
+"GNSS e GIS"
+msgstr ""
+"Organismo responsable de la información: GTER Innovación en Geomática, "
+"GNSS y GIS"
+
+#: ../../intro.rst:15
+msgid "Autorità di gestione: Regione del Veneto - Direzione AdG FEASR e Foreste"
+msgstr "Autoridad de gestión: Regione del Veneto - Direzione AdG FEASR e Foreste"
+
+#: ../../intro.rst:17
+msgid ""
+"Il Manuale è stato realizzato da `Gter srl`_  e distribuito con licenza "
+"https://creativecommons.org/licenses/by/4.0/"
+msgstr ""
+"El manual ha sido realizado por `Gter srl`_  y distribuido bajo la licencia de "
+"https://creativecommons.org/licenses/by/4.0/"
+
+#: ../../intro.rst:19
+msgid ""
+"**Per gli utenti di Regione Veneto** è stato inoltre realizzato un "
+"tutorial dettagliato sull'utilizzo dei dati LIDAR a fini forestali in "
+"QGIS. Il tutorial (in italiano) comprende:"
+msgstr ""
+"**Para los usuarios de la Región de Veneto** se creó un "
+"tutorial detallado sobre el uso de datos LIDAR con fines forestales en "
+"QGIS. El tutorial (solo en italiano) comprende:"
+
+#: ../../intro.rst:21
+msgid ""
+"una breve sezione introduttiva sulla tecnologia LIDAR e le sue principali"
+" applicazioni in ambito ambientale e non solo,"
+msgstr ""
+"una breve sección introductoria sobre la tecnología LIDAR y sus principales"
+" aplicaciones en ámbito ambiental y más allá,"
+
+#: ../../intro.rst:22
+msgid ""
+"una dettagliata descrizione dell'utilizzo e funzionamento del Plugin CHM "
+"from LIDAR con esempi pratici basati sui dati (DSM/DTM) di Regione Veneto"
+msgstr ""
+"una descripción detallada del uso y funcionamiento del Plugin CHM "
+"from LIDAR con ejemplos prácticos basados en los datos (DSM/DTM) de la Región de Veneto"
+
+#: ../../intro.rst:23
+msgid ""
+"una sezione dedicata al post-processamento dei CHM ottenuti dall'utilizzo"
+" del plugin (es. riclassificazione e successiva vettorializzazione.)"
+msgstr ""
+"una sección dedicada al post-procesamiento del CHM obtenido de el uso"
+" del plugin (ej. Reclasificación y posteriore.)"
+
+#: ../../intro.rst:25
+msgid ""
+"**Il Tutorial è disponibile a questo link:** https://tutorial-lidar-"
+"qgis.readthedocs.io/en/latest/"
+msgstr ""
+"**El tutorial se encuentra disponible en este link:** https://tutorial-lidar-"
+"qgis.readthedocs.io/en/latest/"
+
+#: ../../intro.rst:28
+msgid "Glossario"
+msgstr "Glosario"
+
+#: ../../intro.rst:30
+msgid "CHM: Canopy Height Model"
+msgstr "CHM: Canopy Height Model"
+
+#: ../../intro.rst:31
+msgid "DSM: Digital Surface Model"
+msgstr "DSM: Digital Surface Model"
+
+#: ../../intro.rst:32
+msgid "DTM: Digital Terrain Model"
+msgstr "DTM: Digital Terrain Model"
+
+#: ../../intro.rst:33
+msgid "GIS: Geographic Information System"
+msgstr "GIS: Geographic Information System"
+
+#: ../../intro.rst:34
+msgid "LIDAR: Laser Imaging Detection and Ranging"
+msgstr "LIDAR: Laser Imaging Detection and Ranging"
+
